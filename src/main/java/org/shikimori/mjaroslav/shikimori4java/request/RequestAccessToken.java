@@ -16,12 +16,22 @@ public class RequestAccessToken extends RequestBase<ResponceAccessToken> {
 		this.password = password;
 	}
 
-	public void setNickname(String nickname) {
+	public RequestAccessToken setNickname(String nickname) {
 		this.nickname = nickname;
+		return this;
 	}
 
-	public void setPassword(String password) {
+	public RequestAccessToken setPassword(String password) {
 		this.password = password;
+		return this;
+	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public String getPassword() {
+		return password;
 	}
 
 	@Override

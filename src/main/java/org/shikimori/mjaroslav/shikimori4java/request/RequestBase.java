@@ -2,12 +2,10 @@ package org.shikimori.mjaroslav.shikimori4java.request;
 
 import java.nio.charset.StandardCharsets;
 
-import org.shikimori.mjaroslav.shikimori4java.responce.ResponceBase;
-
 import com.github.kevinsawicki.http.HttpRequest;
 import com.google.gson.Gson;
 
-public class RequestBase<T extends ResponceBase> {
+public class RequestBase<T> {
 	public static final String urlBase = "https://shikimori.org/api/";
 	public static final Gson gson = new Gson();
 	private String method;
