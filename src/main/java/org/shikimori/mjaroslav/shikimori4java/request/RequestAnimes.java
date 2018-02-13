@@ -1,6 +1,14 @@
 package org.shikimori.mjaroslav.shikimori4java.request;
 
+import java.util.ArrayList;
+
 import org.shikimori.mjaroslav.shikimori4java.ShikimoriClient;
+import org.shikimori.mjaroslav.shikimori4java.object.EnumAnimeKind;
+import org.shikimori.mjaroslav.shikimori4java.object.EnumAnimeOrder;
+import org.shikimori.mjaroslav.shikimori4java.object.EnumDuration;
+import org.shikimori.mjaroslav.shikimori4java.object.EnumRating;
+import org.shikimori.mjaroslav.shikimori4java.object.EnumStatus;
+import org.shikimori.mjaroslav.shikimori4java.object.EnumType;
 import org.shikimori.mjaroslav.shikimori4java.responce.ResponceAnime;
 
 public class RequestAnimes extends RequestBase<ResponceAnime[]> {
@@ -32,14 +40,46 @@ public class RequestAnimes extends RequestBase<ResponceAnime[]> {
 		return this;
 	}
 
-	public RequestAnimes setKind(String kind) {
-		setParam("kind", kind);
+	public RequestAnimes setOrder(EnumAnimeOrder order) {
+		return setOrder(order.getStringValue());
+	}
+
+	public RequestAnimes setKind(String... kinds) {
+		String value = null;
+		if (kinds.length > 0) {
+			value = String.valueOf(kinds[0]);
+			if (kinds.length > 1)
+				for (int id = 1; id < kinds.length; id++)
+					value += "," + kinds[id];
+		}
+		setParam("kind", value);
 		return this;
 	}
 
-	public RequestAnimes setStatus(String status) {
-		setParam("status", status);
+	public RequestAnimes setKind(EnumAnimeKind... kinds) {
+		ArrayList<String> value = new ArrayList<String>();
+		for (EnumAnimeKind kind : kinds)
+			value.add(kind.getStringValue());
+		return setKind(value.toArray(new String[0]));
+	}
+
+	public RequestAnimes setStatus(String... statuses) {
+		String value = null;
+		if (statuses.length > 0) {
+			value = String.valueOf(statuses[0]);
+			if (statuses.length > 1)
+				for (int id = 1; id < statuses.length; id++)
+					value += "," + statuses[id];
+		}
+		setParam("status", value);
 		return this;
+	}
+
+	public RequestAnimes setStatus(EnumStatus... statuses) {
+		ArrayList<String> value = new ArrayList<String>();
+		for (EnumStatus kind : statuses)
+			value.add(kind.getStringValue());
+		return setStatus(value.toArray(new String[0]));
 	}
 
 	public RequestAnimes setSeason(String season) {
@@ -52,14 +92,42 @@ public class RequestAnimes extends RequestBase<ResponceAnime[]> {
 		return this;
 	}
 
-	public RequestAnimes setDuration(String duration) {
-		setParam("duration", duration);
+	public RequestAnimes setDuration(String... durations) {
+		String value = null;
+		if (durations.length > 0) {
+			value = String.valueOf(durations[0]);
+			if (durations.length > 1)
+				for (int id = 1; id < durations.length; id++)
+					value += "," + durations[id];
+		}
+		setParam("duration", value);
 		return this;
 	}
 
-	public RequestAnimes setRating(String rating) {
-		setParam("rating", rating);
+	public RequestAnimes setDuration(EnumDuration... durations) {
+		ArrayList<String> value = new ArrayList<String>();
+		for (EnumDuration kind : durations)
+			value.add(kind.getStringValue());
+		return setStatus(value.toArray(new String[0]));
+	}
+
+	public RequestAnimes setRating(String... ratings) {
+		String value = null;
+		if (ratings.length > 0) {
+			value = String.valueOf(ratings[0]);
+			if (ratings.length > 1)
+				for (int id = 1; id < ratings.length; id++)
+					value += "," + ratings[id];
+		}
+		setParam("rating", value);
 		return this;
+	}
+
+	public RequestAnimes setRating(EnumRating... ratings) {
+		ArrayList<String> value = new ArrayList<String>();
+		for (EnumRating kind : ratings)
+			value.add(kind.getStringValue());
+		return setRating(value.toArray(new String[0]));
 	}
 
 	public RequestAnimes setGenre(int... ids) {
@@ -91,9 +159,23 @@ public class RequestAnimes extends RequestBase<ResponceAnime[]> {
 		return this;
 	}
 
-	public RequestAnimes setMylist(String mylist) {
-		setParam("mylist", mylist);
+	public RequestAnimes setMylist(String... types) {
+		String value = null;
+		if (types.length > 0) {
+			value = String.valueOf(types[0]);
+			if (types.length > 1)
+				for (int id = 1; id < types.length; id++)
+					value += "," + types[id];
+		}
+		setParam("mylist", value);
 		return this;
+	}
+
+	public RequestAnimes setMylist(EnumType... types) {
+		ArrayList<String> value = new ArrayList<String>();
+		for (EnumType kind : types)
+			value.add(kind.getStringValue());
+		return setMylist(value.toArray(new String[0]));
 	}
 
 	public RequestAnimes setIds(int... ids) {

@@ -68,19 +68,15 @@ public class RequestBase<T> {
 				result.add(entry.getValue());
 			}
 		}
-		if (client != null && client.isLogged()) {
-			result.add("X-User-Nickname");
-			result.add(getClient().getNickname());
-			result.add("X-User-Api-Access-Token");
-			result.add(getClient().getToken());
-		}
 		return result.toArray(new Object[0]);
 	}
 
 	public T getResponce() {
 		String agent = "Shikimori4Java @ MJaroslav";
 		HttpRequest request = HttpRequest.get(urlBase + method, true, getParams()).userAgent(agent);
-		System.out.println(request.toString());
+		if (client != null && client.isLogged())
+			request = request.header("X-User-Nickname", getClient().getNickname()).header("X-User-Api-Access-Token",
+					getClient().getToken());
 		return gson.fromJson(request.body(StandardCharsets.UTF_8.name()), responceType);
 	}
 

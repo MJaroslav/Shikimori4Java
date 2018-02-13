@@ -1,23 +1,48 @@
 package org.shikimori.mjaroslav.shikimori4java.responce;
 
-public class ResponceAnime {
-	public int id;
-	public String name;
-	public String russian;
-	public Image image;
+import org.shikimori.mjaroslav.shikimori4java.ShikimoriApi;
+import org.shikimori.mjaroslav.shikimori4java.object.EnumAnimeKind;
+import org.shikimori.mjaroslav.shikimori4java.object.EnumStatus;
+import org.shikimori.mjaroslav.shikimori4java.object.ObjectImage;
 
-	public static class Image {
-		public String original;
-		public String preview;
-		public String x96;
-		public String x48;
+import com.google.gson.annotations.SerializedName;
+
+public class ResponceAnime {
+	@SerializedName("id")
+	public int id;
+	@SerializedName("name")
+	public String name;
+	@SerializedName("russian")
+	public String russianName;
+	@SerializedName("image")
+	public ObjectImage image;
+	@SerializedName("url")
+	public String url;
+
+	public String getUrlFull() {
+		return ShikimoriApi.urlBase + url;
 	}
 
-	public String url;
+	@SerializedName("kind")
 	public String kind;
+
+	public EnumAnimeKind getKindEnum() {
+		return EnumAnimeKind.fromValue(kind);
+	}
+
+	@SerializedName("status")
 	public String status;
+
+	public EnumStatus getStatusEnum() {
+		return EnumStatus.fromValue(status);
+	}
+
+	@SerializedName("episodes")
 	public int episodes;
-	public int episodes_aired;
-	public String aired_on;
-	public String released_on;
+	@SerializedName("episodes_aired")
+	public int episodesAired;
+	@SerializedName("aired_on")
+	public String airedOn;
+	@SerializedName("released_on")
+	public String releasedOn;
 }
