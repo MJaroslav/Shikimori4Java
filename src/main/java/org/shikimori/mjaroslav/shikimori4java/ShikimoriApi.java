@@ -16,4 +16,27 @@ public class ShikimoriApi {
 	public static ShikimoriClient loginClient(String nickname, String password) {
 		return new ShikimoriClient(nickname, password);
 	}
+
+	private ShikimoriClient client;
+
+	private ApiAnime anime = new ApiAnime(this);
+
+	public ShikimoriApi(ShikimoriClient client) {
+		this.client = client;
+	}
+
+	public ShikimoriApi() {
+	}
+
+	public void setClient(ShikimoriClient client) {
+		this.client = client;
+	}
+
+	public ShikimoriClient getClient() {
+		return client;
+	}
+
+	public ApiAnime anime() {
+		return anime;
+	}
 }
