@@ -1,16 +1,17 @@
 package org.shikimori.mjaroslav.shikimori4java;
 
-import org.shikimori.mjaroslav.shikimori4java.object.ObjectRole;
-import org.shikimori.mjaroslav.shikimori4java.request.RequestAnimesRoles;
+import org.shikimori.mjaroslav.shikimori4java.object.ObjectFranchise;
+import org.shikimori.mjaroslav.shikimori4java.request.RequestAnimesFranchise;
 
 public class MainTest {
 	public static ShikimoriClient client;
 
 	public static void main(String... args) {
 		client = ShikimoriApi.loginClient(args[0], args[1]);
-		ObjectRole[] answer = new RequestAnimesRoles(20785).getResponce();
-		for (ObjectRole role : answer)
-			System.out.println(role.rolesRussian.get(0) + " "
-					+ (role.character != null ? role.character.nameRussian : role.person.nameRussian));
+		ObjectFranchise answer = new RequestAnimesFranchise(20785).getResponce();
+		for (ObjectFranchise.ObjectLink link : answer.links)
+			System.out.println(link.relation + " " + link.source + " " + link.target + " " + link.weight);
+		for (ObjectFranchise.ObjectNode node : answer.nodes)
+			System.out.println(node.id + " " + node.name + " " + node.kind + " " + node.weight + " " + node.url);
 	}
 }
