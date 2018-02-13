@@ -15,7 +15,7 @@ import com.google.gson.Gson;
 public class RequestBase<T> {
 	public static final String urlBase = "https://shikimori.org/api/";
 	public static final Gson gson = new Gson();
-	private String method;
+	protected String method;
 	private final Class<T> responceType;
 	private ShikimoriClient client;
 	protected Map<String, Object> params = new HashMap<String, Object>();
@@ -73,11 +73,11 @@ public class RequestBase<T> {
 
 	public T getResponce() {
 		String agent = "Shikimori4Java @ MJaroslav";
-		HttpRequest request = HttpRequest.get(urlBase + method, true, getParams()).userAgent(agent);
-		if (client != null && client.isLogged())
+		HttpRequest request = HttpRequest.get(urlBase + getMethod(), true, getParams()).userAgent(agent);
+		if (getClient() != null && getClient().isLogged())
 			request = request.header("X-User-Nickname", getClient().getNickname()).header("X-User-Api-Access-Token",
 					getClient().getToken());
-		return gson.fromJson(request.body(StandardCharsets.UTF_8.name()), responceType);
+		return gson.fromJson(request.body(StandardCharsets.UTF_8.name()), getResponceType());
 	}
 
 	public Class<T> getResponceType() {

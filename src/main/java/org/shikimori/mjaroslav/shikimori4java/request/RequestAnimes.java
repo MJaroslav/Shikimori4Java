@@ -9,15 +9,15 @@ import org.shikimori.mjaroslav.shikimori4java.object.EnumDuration;
 import org.shikimori.mjaroslav.shikimori4java.object.EnumRating;
 import org.shikimori.mjaroslav.shikimori4java.object.EnumStatus;
 import org.shikimori.mjaroslav.shikimori4java.object.EnumType;
-import org.shikimori.mjaroslav.shikimori4java.responce.ResponceAnime;
+import org.shikimori.mjaroslav.shikimori4java.object.ObjectAnime;
 
-public class RequestAnimes extends RequestBase<ResponceAnime[]> {
+public class RequestAnimes extends RequestBase<ObjectAnime[]> {
 	public RequestAnimes() {
-		super("animes", ResponceAnime[].class);
+		super("animes", ObjectAnime[].class);
 	}
 
 	public RequestAnimes(ShikimoriClient client) {
-		super(client, "animes", ResponceAnime[].class);
+		super(client, "animes", ObjectAnime[].class);
 	}
 
 	public RequestAnimes setSearch(String search) {

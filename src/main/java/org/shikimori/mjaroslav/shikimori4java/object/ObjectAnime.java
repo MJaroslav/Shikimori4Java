@@ -1,21 +1,18 @@
-package org.shikimori.mjaroslav.shikimori4java.responce;
+package org.shikimori.mjaroslav.shikimori4java.object;
 
 import org.shikimori.mjaroslav.shikimori4java.ShikimoriApi;
-import org.shikimori.mjaroslav.shikimori4java.object.EnumAnimeKind;
-import org.shikimori.mjaroslav.shikimori4java.object.EnumStatus;
-import org.shikimori.mjaroslav.shikimori4java.object.ObjectImage;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ResponceAnime {
+public class ObjectAnime {
 	@SerializedName("id")
 	public int id;
 	@SerializedName("name")
 	public String name;
 	@SerializedName("russian")
-	public String russianName;
+	public String nameRussian;
 	@SerializedName("image")
-	public ObjectImage image;
+	public ObjectImageFull image;
 	@SerializedName("url")
 	public String url;
 
