@@ -17,6 +17,6 @@ public class ObjectPersonCharacter {
 	public String url;
 
 	public String getUrlFull() {
-		return ShikimoriApi.urlBase + url;
+		return ShikimoriApi.siteUrl + url;
 	}
 }

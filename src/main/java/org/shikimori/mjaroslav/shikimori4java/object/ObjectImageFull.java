@@ -11,10 +11,10 @@ public class ObjectImageFull extends ObjectImage {
 	public String x48;
 
 	public String getX48Full() {
-		return ShikimoriApi.urlBase + x48;
+		return ShikimoriApi.siteUrl + x48;
 	}
 
 	public String getX96Full() {
-		return ShikimoriApi.urlBase + x96;
+		return ShikimoriApi.siteUrl + x96;
 	}
 }

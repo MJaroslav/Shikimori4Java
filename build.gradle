@@ -5,7 +5,6 @@ repositories {
     jcenter()
 }
 
-apply plugin: "application"
 archivesBaseName = "Shikimori4Java"
 version = "1.0.0"
 

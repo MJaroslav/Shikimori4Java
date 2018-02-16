@@ -1,10 +1,10 @@
 package org.shikimori.mjaroslav.shikimori4java.request;
 
-import org.shikimori.mjaroslav.shikimori4java.responce.ResponceAccessToken;
+import org.shikimori.mjaroslav.shikimori4java.object.ObjectAccessToken;
 
-public class RequestAccessToken extends RequestBase<ResponceAccessToken> {
+public class RequestAccessToken extends RequestBase<ObjectAccessToken> {
 	public RequestAccessToken() {
-		super("access_token", ResponceAccessToken.class);
+		super("access_token", ObjectAccessToken.class);
 	}
 
 	public RequestAccessToken(String nickname, String password) {
@@ -21,13 +21,5 @@ public class RequestAccessToken extends RequestBase<ResponceAccessToken> {
 	public RequestAccessToken setPassword(String password) {
 		setParam("password", password);
 		return this;
-	}
-
-	public String getNickname() {
-		return (String) getParam("nickname");
-	}
-
-	public String getPassword() {
-		return (String) getParam("password");
 	}
 }

@@ -1,23 +1,15 @@
-package org.shikimori.mjaroslav.shikimori4java.request;
+package org.shikimori.mjaroslav.shikimori4java.request.animes;
 
 import org.shikimori.mjaroslav.shikimori4java.ShikimoriClient;
 import org.shikimori.mjaroslav.shikimori4java.object.ObjectFranchise;
+import org.shikimori.mjaroslav.shikimori4java.request.RequestBase;
 
 public class RequestAnimesFranchise extends RequestBase<ObjectFranchise> {
-	private int id;
-
 	public RequestAnimesFranchise(int id) {
-		super("animes/", ObjectFranchise.class);
-		this.id = id;
+		super("animes/" + id + "/franchise", ObjectFranchise.class);
 	}
 
 	public RequestAnimesFranchise(ShikimoriClient client, int id) {
-		super(client, "animes/", ObjectFranchise.class);
-		this.id = id;
-	}
-
-	@Override
-	public String getMethod() {
-		return super.getMethod() + id + "/franchise";
+		super(client, "animes/" + id + "/franchise", ObjectFranchise.class);
 	}
 }

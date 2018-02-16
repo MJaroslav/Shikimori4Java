@@ -1,23 +1,15 @@
-package org.shikimori.mjaroslav.shikimori4java.request;
+package org.shikimori.mjaroslav.shikimori4java.request.animes;
 
 import org.shikimori.mjaroslav.shikimori4java.ShikimoriClient;
 import org.shikimori.mjaroslav.shikimori4java.object.ObjectImage;
+import org.shikimori.mjaroslav.shikimori4java.request.RequestBase;
 
 public class RequestAnimesScreenshots extends RequestBase<ObjectImage[]> {
-	private int id;
-
 	public RequestAnimesScreenshots(int id) {
-		super("animes/", ObjectImage[].class);
-		this.id = id;
+		super("animes/" + id + "/screenshots", ObjectImage[].class);
 	}
 
 	public RequestAnimesScreenshots(ShikimoriClient client, int id) {
-		super(client, "animes/", ObjectImage[].class);
-		this.id = id;
-	}
-
-	@Override
-	public String getMethod() {
-		return super.getMethod() + id + "/screenshots";
+		super(client, "animes/" + id + "/screenshots", ObjectImage[].class);
 	}
 }

@@ -9,4 +9,6 @@ public class ObjectRelation {
 	public String relationRussian;
 	@SerializedName("anime")
 	public ObjectAnime anime;
+	@SerializedName("manga")
+	public ObjectManga manga;
 }

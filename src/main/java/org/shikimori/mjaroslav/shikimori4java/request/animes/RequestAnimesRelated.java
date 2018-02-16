@@ -1,23 +1,15 @@
-package org.shikimori.mjaroslav.shikimori4java.request;
+package org.shikimori.mjaroslav.shikimori4java.request.animes;
 
 import org.shikimori.mjaroslav.shikimori4java.ShikimoriClient;
 import org.shikimori.mjaroslav.shikimori4java.object.ObjectRelation;
+import org.shikimori.mjaroslav.shikimori4java.request.RequestBase;
 
 public class RequestAnimesRelated extends RequestBase<ObjectRelation[]> {
-	private int id;
-
 	public RequestAnimesRelated(int id) {
-		super("animes/", ObjectRelation[].class);
-		this.id = id;
+		super("animes/" + id + "/related", ObjectRelation[].class);
 	}
 
 	public RequestAnimesRelated(ShikimoriClient client, int id) {
-		super(client, "animes/", ObjectRelation[].class);
-		this.id = id;
-	}
-
-	@Override
-	public String getMethod() {
-		return super.getMethod() + id + "/related";
+		super(client, "animes/" + id + "/related", ObjectRelation[].class);
 	}
 }

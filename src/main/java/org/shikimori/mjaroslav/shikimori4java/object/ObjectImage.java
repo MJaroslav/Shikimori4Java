@@ -11,10 +11,10 @@ public class ObjectImage {
 	public String preview;
 
 	public String getOriginalFull() {
-		return ShikimoriApi.urlBase + original;
+		return ShikimoriApi.siteUrl + original;
 	}
 
 	public String getPreviewFull() {
-		return ShikimoriApi.urlBase + preview;
+		return ShikimoriApi.siteUrl + preview;
 	}
 }

@@ -4,7 +4,7 @@ import org.shikimori.mjaroslav.shikimori4java.ShikimoriApi;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ObjectAnime {
+public class ObjectManga {
 	@SerializedName("id")
 	public int id;
 	@SerializedName("name")
@@ -23,8 +23,8 @@ public class ObjectAnime {
 	@SerializedName("kind")
 	public String kind;
 
-	public EnumAnimeKind getKindEnum() {
-		return EnumAnimeKind.fromValue(kind);
+	public EnumMangaKind getKindEnum() {
+		return EnumMangaKind.fromValue(kind);
 	}
 
 	@SerializedName("status")
@@ -34,10 +34,10 @@ public class ObjectAnime {
 		return EnumStatus.fromValue(status);
 	}
 
-	@SerializedName("episodes")
-	public int episodes;
-	@SerializedName("episodes_aired")
-	public int episodesAired;
+	@SerializedName("volumes")
+	public int volumes;
+	@SerializedName("chapters")
+	public int chapters;
 	@SerializedName("aired_on")
 	public String airedOn;
 	@SerializedName("released_on")

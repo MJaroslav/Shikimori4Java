@@ -1,24 +1,24 @@
 package org.shikimori.mjaroslav.shikimori4java.request;
 
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.shikimori.mjaroslav.shikimori4java.ShikimoriApi;
 import org.shikimori.mjaroslav.shikimori4java.ShikimoriClient;
 import org.shikimori.mjaroslav.shikimori4java.utils.Utils;
 
 import com.github.kevinsawicki.http.HttpRequest;
-import com.google.gson.Gson;
 
 public class RequestBase<T> {
-	public static final String urlBase = "https://shikimori.org/api/";
-	public static final Gson gson = new Gson();
 	protected String method;
 	private final Class<T> responceType;
 	private ShikimoriClient client;
 	protected Map<String, Object> params = new HashMap<String, Object>();
+	private Charset charset = StandardCharsets.UTF_8;
 
 	public Object setParam(String name, Object value) {
 		params.put(name, value);
@@ -51,6 +51,10 @@ public class RequestBase<T> {
 		return method;
 	}
 
+	public String getUrl() {
+		return ShikimoriApi.apiUrl + "/" + getMethod();
+	}
+
 	public void setClient(ShikimoriClient client) {
 		this.client = client;
 	}
@@ -71,13 +75,20 @@ public class RequestBase<T> {
 		return result.toArray(new Object[0]);
 	}
 
-	public T getResponce() {
-		String agent = "Shikimori4Java @ MJaroslav";
-		HttpRequest request = HttpRequest.get(urlBase + getMethod(), true, getParams()).userAgent(agent);
-		if (getClient() != null && getClient().isLogged())
+	public T execute() {
+		HttpRequest request = HttpRequest.get(getUrl(), true, getParams()).userAgent(ShikimoriApi.userAgent);
+		if (Utils.clientExist(getClient()))
 			request = request.header("X-User-Nickname", getClient().getNickname()).header("X-User-Api-Access-Token",
 					getClient().getToken());
-		return gson.fromJson(request.body(StandardCharsets.UTF_8.name()), getResponceType());
+		return Utils.fromJson(request.body(charset.name()), getResponceType());
+	}
+
+	public void setCharset(Charset charset) {
+		this.charset = charset;
+	}
+
+	public Charset getCharset() {
+		return charset;
 	}
 
 	public Class<T> getResponceType() {

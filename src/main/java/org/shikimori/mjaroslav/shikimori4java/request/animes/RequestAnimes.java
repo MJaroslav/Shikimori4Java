@@ -1,4 +1,4 @@
-package org.shikimori.mjaroslav.shikimori4java.request;
+package org.shikimori.mjaroslav.shikimori4java.request.animes;
 
 import java.util.ArrayList;
 
@@ -9,15 +9,16 @@ import org.shikimori.mjaroslav.shikimori4java.object.EnumDuration;
 import org.shikimori.mjaroslav.shikimori4java.object.EnumRating;
 import org.shikimori.mjaroslav.shikimori4java.object.EnumStatus;
 import org.shikimori.mjaroslav.shikimori4java.object.EnumType;
-import org.shikimori.mjaroslav.shikimori4java.object.ObjectAnime;
+import org.shikimori.mjaroslav.shikimori4java.object.ObjectManga;
+import org.shikimori.mjaroslav.shikimori4java.request.RequestBase;
 
-public class RequestAnimes extends RequestBase<ObjectAnime[]> {
+public class RequestAnimes extends RequestBase<ObjectManga[]> {
 	public RequestAnimes() {
-		super("animes", ObjectAnime[].class);
+		super("animes", ObjectManga[].class);
 	}
 
 	public RequestAnimes(ShikimoriClient client) {
-		super(client, "animes", ObjectAnime[].class);
+		super(client, "animes", ObjectManga[].class);
 	}
 
 	public RequestAnimes setSearch(String search) {
@@ -200,13 +201,5 @@ public class RequestAnimes extends RequestBase<ObjectAnime[]> {
 		}
 		setParam("exclude_ids", value);
 		return this;
-	}
-
-	public String getSearch() {
-		return (String) getParam("search");
-	}
-
-	public int getLimit() {
-		return (int) getParam("limit");
 	}
 }

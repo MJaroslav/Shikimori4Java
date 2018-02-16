@@ -1,8 +1,8 @@
-package org.shikimori.mjaroslav.shikimori4java.responce;
+package org.shikimori.mjaroslav.shikimori4java.object;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ResponceAccessToken {
+public class ObjectAccessToken {
 	@SerializedName("api_access_token")
 	public String token;
 }
