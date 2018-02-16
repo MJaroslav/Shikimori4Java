@@ -1,7 +1,7 @@
 package org.shikimori.mjaroslav.shikimori4java;
 
-import org.shikimori.mjaroslav.shikimori4java.object.ObjectFranchise;
-import org.shikimori.mjaroslav.shikimori4java.object.ObjectFranchise.ObjectNode;
+import org.shikimori.mjaroslav.shikimori4java.object.EnumType;
+import org.shikimori.mjaroslav.shikimori4java.object.ObjectManga;
 
 public class Shikimori4Java {
 	public static ShikimoriClient client;
@@ -10,8 +10,8 @@ public class Shikimori4Java {
 	public static void main(String... args) {
 		client = ShikimoriApi.loginClient(args[0], args[1]);
 		api.setClient(client);
-		ObjectFranchise answer = api.mangas().franchise(2).execute();
-		for (ObjectNode node : answer.nodes)
+		ObjectManga[] answer = api.mangas().pattern().setMylist(EnumType.PLANNED).setLimit(50).execute();
+		for (ObjectManga node : answer)
 			System.out.println(node.id + " " + node.name);
 	}
 }

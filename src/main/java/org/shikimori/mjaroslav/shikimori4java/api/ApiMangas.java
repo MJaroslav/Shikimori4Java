@@ -14,6 +14,10 @@ public class ApiMangas extends ApiBase {
 		super(api);
 	}
 
+	public RequestMangas pattern() {
+		return new RequestMangas(getClient());
+	}
+	
 	public RequestMangas top() {
 		return new RequestMangas(getClient()).setLimit(50);
 	}

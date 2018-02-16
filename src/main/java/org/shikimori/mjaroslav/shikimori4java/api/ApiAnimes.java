@@ -15,6 +15,10 @@ public class ApiAnimes extends ApiBase {
 		super(api);
 	}
 
+	public RequestAnimes pattern() {
+		return new RequestAnimes(getClient());
+	}
+
 	public RequestAnimes top() {
 		return new RequestAnimes(getClient()).setLimit(50);
 	}
