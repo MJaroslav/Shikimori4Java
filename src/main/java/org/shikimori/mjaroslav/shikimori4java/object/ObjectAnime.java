@@ -1,6 +1,6 @@
 package org.shikimori.mjaroslav.shikimori4java.object;
 
-import org.shikimori.mjaroslav.shikimori4java.ShikimoriApi;
+import org.shikimori.mjaroslav.shikimori4java.core.ShikimoriApi;
 
 import com.google.gson.annotations.SerializedName;
 

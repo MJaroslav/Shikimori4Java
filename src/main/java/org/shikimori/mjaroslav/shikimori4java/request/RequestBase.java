@@ -7,8 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.shikimori.mjaroslav.shikimori4java.ShikimoriApi;
-import org.shikimori.mjaroslav.shikimori4java.ShikimoriClient;
+import org.shikimori.mjaroslav.shikimori4java.core.ShikimoriApi;
+import org.shikimori.mjaroslav.shikimori4java.core.ShikimoriClient;
 import org.shikimori.mjaroslav.shikimori4java.utils.Utils;
 
 import com.github.kevinsawicki.http.HttpRequest;
@@ -76,10 +76,10 @@ public class RequestBase<T> {
 	}
 
 	public T execute() {
-		HttpRequest request = HttpRequest.get(getUrl(), true, getParams()).userAgent(ShikimoriApi.userAgent);
+		HttpRequest request = null;
 		if (Utils.clientExist(getClient()))
-			request = request.header("X-User-Nickname", getClient().getNickname()).header("X-User-Api-Access-Token",
-					getClient().getToken());
+			request = HttpRequest.get(getUrl(), true, getParams()).userAgent(getClient().getUserAgent())
+					.header("Authorization", getClient().getAuthorization());
 		return Utils.fromJson(request.body(charset.name()), getResponceType());
 	}
 

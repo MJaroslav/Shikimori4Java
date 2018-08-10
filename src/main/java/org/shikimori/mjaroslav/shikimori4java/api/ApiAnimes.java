@@ -1,6 +1,6 @@
 package org.shikimori.mjaroslav.shikimori4java.api;
 
-import org.shikimori.mjaroslav.shikimori4java.ShikimoriApi;
+import org.shikimori.mjaroslav.shikimori4java.core.ShikimoriApp;
 import org.shikimori.mjaroslav.shikimori4java.request.animes.RequestAnimes;
 import org.shikimori.mjaroslav.shikimori4java.request.animes.RequestAnimesExternalLink;
 import org.shikimori.mjaroslav.shikimori4java.request.animes.RequestAnimesFranchise;
@@ -11,8 +11,8 @@ import org.shikimori.mjaroslav.shikimori4java.request.animes.RequestAnimesScreen
 import org.shikimori.mjaroslav.shikimori4java.request.animes.RequestAnimesSimilar;
 
 public class ApiAnimes extends ApiBase {
-	public ApiAnimes(ShikimoriApi api) {
-		super(api);
+	public ApiAnimes(ShikimoriApp app) {
+		super(app);
 	}
 
 	public RequestAnimes pattern() {

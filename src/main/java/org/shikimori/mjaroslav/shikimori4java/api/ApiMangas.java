@@ -1,6 +1,6 @@
 package org.shikimori.mjaroslav.shikimori4java.api;
 
-import org.shikimori.mjaroslav.shikimori4java.ShikimoriApi;
+import org.shikimori.mjaroslav.shikimori4java.core.ShikimoriApp;
 import org.shikimori.mjaroslav.shikimori4java.request.mangas.RequestMangas;
 import org.shikimori.mjaroslav.shikimori4java.request.mangas.RequestMangasExternalLink;
 import org.shikimori.mjaroslav.shikimori4java.request.mangas.RequestMangasFranchise;
@@ -10,14 +10,14 @@ import org.shikimori.mjaroslav.shikimori4java.request.mangas.RequestMangasRoles;
 import org.shikimori.mjaroslav.shikimori4java.request.mangas.RequestMangasSimilar;
 
 public class ApiMangas extends ApiBase {
-	public ApiMangas(ShikimoriApi api) {
-		super(api);
+	public ApiMangas(ShikimoriApp app) {
+		super(app);
 	}
 
 	public RequestMangas pattern() {
 		return new RequestMangas(getClient());
 	}
-	
+
 	public RequestMangas top() {
 		return new RequestMangas(getClient()).setLimit(50);
 	}

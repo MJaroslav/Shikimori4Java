@@ -1,20 +1,20 @@
 package org.shikimori.mjaroslav.shikimori4java.api;
 
-import org.shikimori.mjaroslav.shikimori4java.ShikimoriApi;
-import org.shikimori.mjaroslav.shikimori4java.ShikimoriClient;
+import org.shikimori.mjaroslav.shikimori4java.core.ShikimoriApp;
+import org.shikimori.mjaroslav.shikimori4java.core.ShikimoriClient;
 
 public class ApiBase {
-	private ShikimoriApi api;
+	private ShikimoriApp app;
 
-	public ApiBase(ShikimoriApi api) {
-		this.api = api;
+	public ApiBase(ShikimoriApp app) {
+		this.app = app;
 	}
 
-	public ShikimoriApi getApi() {
-		return api;
+	public ShikimoriApp getApp() {
+		return app;
 	}
 
 	public ShikimoriClient getClient() {
-		return getApi().getClient();
+		return getApp().getClient();
 	}
 }

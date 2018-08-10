@@ -2,7 +2,7 @@ package org.shikimori.mjaroslav.shikimori4java.request.mangas;
 
 import java.util.ArrayList;
 
-import org.shikimori.mjaroslav.shikimori4java.ShikimoriClient;
+import org.shikimori.mjaroslav.shikimori4java.core.ShikimoriClient;
 import org.shikimori.mjaroslav.shikimori4java.object.EnumMangaKind;
 import org.shikimori.mjaroslav.shikimori4java.object.EnumMangaOrder;
 import org.shikimori.mjaroslav.shikimori4java.object.EnumStatus;

@@ -1,6 +1,6 @@
 package org.shikimori.mjaroslav.shikimori4java.request.animes;
 
-import org.shikimori.mjaroslav.shikimori4java.ShikimoriClient;
+import org.shikimori.mjaroslav.shikimori4java.core.ShikimoriClient;
 import org.shikimori.mjaroslav.shikimori4java.object.ObjectFranchise;
 import org.shikimori.mjaroslav.shikimori4java.request.RequestBase;
 

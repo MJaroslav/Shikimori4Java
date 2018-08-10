@@ -2,7 +2,7 @@ package org.shikimori.mjaroslav.shikimori4java.request.animes;
 
 import java.util.ArrayList;
 
-import org.shikimori.mjaroslav.shikimori4java.ShikimoriClient;
+import org.shikimori.mjaroslav.shikimori4java.core.ShikimoriClient;
 import org.shikimori.mjaroslav.shikimori4java.object.EnumAnimeKind;
 import org.shikimori.mjaroslav.shikimori4java.object.EnumAnimeOrder;
 import org.shikimori.mjaroslav.shikimori4java.object.EnumDuration;

@@ -1,7 +1,7 @@
 package org.shikimori.mjaroslav.shikimori4java.utils;
 
-import org.shikimori.mjaroslav.shikimori4java.ShikimoriApi;
-import org.shikimori.mjaroslav.shikimori4java.ShikimoriClient;
+import org.shikimori.mjaroslav.shikimori4java.core.ShikimoriApi;
+import org.shikimori.mjaroslav.shikimori4java.core.ShikimoriClient;
 
 import com.google.gson.Gson;
 
