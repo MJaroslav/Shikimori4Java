@@ -4,26 +4,36 @@ import org.shikimori.mjaroslav.shikimori4java.api.ApiAnimes;
 import org.shikimori.mjaroslav.shikimori4java.api.ApiMangas;
 import org.shikimori.mjaroslav.shikimori4java.api.ApiUsers;
 import org.shikimori.mjaroslav.shikimori4java.object.ObjectAccessToken;
+import org.shikimori.mjaroslav.shikimori4java.object.ObjectUserFull;
+import org.shikimori.mjaroslav.shikimori4java.utils.Utils;
 
 import com.github.kevinsawicki.http.HttpRequest;
-import com.google.gson.Gson;
 
 public class ShikimoriApp {
-	private static final Gson gson = new Gson();
-
+	//
+	// APP DATA
+	//
 	private String appName;
 	private String clientId;
 	private String clientSecret;
-	private String redirectUri = ShikimoriInfo.REDIRECTURI;
-	private String responseType = "code";
-	private String grantType = "authorization_code";
-	private String username;
+	private String redirectUri = ShikimoriInfo.REDIRECT_URI;
 
+	//
+	// APP UTILS
+	//
 	private IAuthWrapper authWrapper = new DefaultAuthWrapper();
 	private ITokenStorage tokenStorage = new DefaultTokenStorage();
 
-	private ShikimoriClient client;
+	//
+	// USER DATA
+	//
+	private ObjectAccessToken token;
+	private String username;
+	private int userId;
 
+	//
+	// APIES
+	//
 	private ApiAnimes animes = new ApiAnimes(this);
 	private ApiMangas mangas = new ApiMangas(this);
 	private ApiUsers users = new ApiUsers(this);
@@ -34,19 +44,16 @@ public class ShikimoriApp {
 		this.clientSecret = clientSecret;
 	}
 
-	public ShikimoriApp setAuthWrapper(IAuthWrapper authWrapper) {
+	public void setAuthWrapper(IAuthWrapper authWrapper) {
 		this.authWrapper = authWrapper;
-		return this;
 	}
 
-	public ShikimoriApp setTokenStorage(ITokenStorage tokenStorage) {
+	public void setTokenStorage(ITokenStorage tokenStorage) {
 		this.tokenStorage = tokenStorage;
-		return this;
 	}
 
-	public ShikimoriApp setRedirectUri(String redirectUri) {
+	public void setRedirectUri(String redirectUri) {
 		this.redirectUri = redirectUri;
-		return this;
 	}
 
 	public String getAppName() {
@@ -57,10 +64,6 @@ public class ShikimoriApp {
 		return authWrapper;
 	}
 
-	public ShikimoriClient getClient() {
-		return client;
-	}
-
 	public String getClientId() {
 		return clientId;
 	}
@@ -69,16 +72,8 @@ public class ShikimoriApp {
 		return clientSecret;
 	}
 
-	public String getGrantType() {
-		return grantType;
-	}
-
 	public String getRedirectUri() {
 		return redirectUri;
-	}
-
-	public String getResponseType() {
-		return responseType;
 	}
 
 	public ITokenStorage getTokenStorage() {
@@ -87,43 +82,90 @@ public class ShikimoriApp {
 
 	public HttpRequest createCodeRequest() {
 		return HttpRequest.get(ShikimoriInfo.AUTHORIZE, true, "client_id", getClientId(), "redirect_uri",
-				getRedirectUri(), "response_type", getResponseType());
+				getRedirectUri(), "response_type", ShikimoriInfo.RESPONSE_TYPE);
 	}
 
 	public HttpRequest createTokenRequest(String code) {
-		return HttpRequest
-				.post(ShikimoriInfo.TOKEN, true, "grant_type", getGrantType(), "client_id", getClientId(),
-						"client_secret", getClientSecret(), "code", code, "redirect_uri", getRedirectUri())
+		return HttpRequest.post(ShikimoriInfo.TOKEN, true, "grant_type", ShikimoriInfo.GRANT_TYPE_CODE, "client_id",
+				getClientId(), "client_secret", getClientSecret(), "code", code, "redirect_uri", getRedirectUri())
 				.userAgent(getUserAgent());
 	}
 
-	public ShikimoriClient auth(String nickname) throws Exception {
-		ObjectAccessToken token = tokenStorage.loadToken(appName, nickname);
-		this.username = nickname;
-		client = new ShikimoriClient(this, token.accessToken);
-		return client;
+	public void auth(String nickname) throws Exception {
+		this.token = tokenStorage.loadToken(appName, nickname);
+		initUser();
+		if (!Utils.stringNotEmpty(getUsername()))
+			refreshToken();
 	}
 
-	public ShikimoriClient auth() throws Exception {
+	public void auth() throws Exception {
 		authWrapper.sendRequest(createCodeRequest().url());
-		ObjectAccessToken token = gson.fromJson(createTokenRequest(authWrapper.getResponse()).body(),
+		ObjectAccessToken token = Utils.fromJson(createTokenRequest(authWrapper.getResponse()).body(),
 				ObjectAccessToken.class);
 		if (token.isLogged()) {
-			username = users().whoami().execute().nickname;
+			this.token = token;
+			initUser();
 			tokenStorage.saveToken(appName, getUsername(), token);
-			client = new ShikimoriClient(this, token.accessToken);
-			return client;
 		} else
 			throw new Exception(token.error + ": " + token.errorDesc);
+	}
+
+	public HttpRequest createRefreshTokenRequest() {
+		return HttpRequest
+				.post(ShikimoriInfo.TOKEN, true, "grant_type", ShikimoriInfo.GRANT_TYPE_REFRESH, "client_id",
+						getClientId(), "client_secret", getClientSecret(), "refresh_token", getToken().refreshToken)
+				.userAgent(getUserAgent());
+	}
+
+	public void refreshToken() throws Exception {
+		HttpRequest req = createRefreshTokenRequest();
+		String json = req.body();
+		System.out.println(json + "\n" + req.url());
+		ObjectAccessToken token = Utils.fromJson(json, ObjectAccessToken.class);
+		if (token.isLogged()) {
+			this.token = token;
+			initUser();
+			tokenStorage.saveToken(appName, getUsername(), token);
+		} else
+			throw new Exception(token.error + ": " + token.errorDesc);
+	}
+
+	public void initUser() {
+		ObjectUserFull user = getUser();
+		username = user.nickname;
+		userId = user.id;
+	}
+
+	public ObjectUserFull getUser() {
+		//if (userId <= 0) {
+			return users().whoami().execute();
+		/*} else
+			return null;*/
+	}
+
+	public int getUserId() {
+		return userId;
 	}
 
 	public String getUserAgent() {
 		return getAppName();
 	}
 
+	public String getAuthorization() {
+		return "Bearer " + getToken().accessToken;
+	}
+
 	public String getUsername() {
 		return username;
 	}
+
+	public ObjectAccessToken getToken() {
+		return token;
+	}
+
+	//
+	// API GETTERS
+	//
 
 	public ApiAnimes animes() {
 		return animes;

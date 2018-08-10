@@ -2,23 +2,23 @@ package org.shikimori.mjaroslav.shikimori4java.request.animes;
 
 import java.util.ArrayList;
 
-import org.shikimori.mjaroslav.shikimori4java.core.ShikimoriClient;
+import org.shikimori.mjaroslav.shikimori4java.core.ShikimoriApp;
 import org.shikimori.mjaroslav.shikimori4java.object.EnumAnimeKind;
 import org.shikimori.mjaroslav.shikimori4java.object.EnumAnimeOrder;
 import org.shikimori.mjaroslav.shikimori4java.object.EnumDuration;
 import org.shikimori.mjaroslav.shikimori4java.object.EnumRating;
 import org.shikimori.mjaroslav.shikimori4java.object.EnumStatus;
 import org.shikimori.mjaroslav.shikimori4java.object.EnumType;
-import org.shikimori.mjaroslav.shikimori4java.object.ObjectManga;
+import org.shikimori.mjaroslav.shikimori4java.object.ObjectAnime;
 import org.shikimori.mjaroslav.shikimori4java.request.RequestBase;
 
-public class RequestAnimes extends RequestBase<ObjectManga[]> {
+public class RequestAnimes extends RequestBase<ObjectAnime[]> {
 	public RequestAnimes() {
-		super("animes", ObjectManga[].class);
+		super("animes", ObjectAnime[].class);
 	}
 
-	public RequestAnimes(ShikimoriClient client) {
-		super(client, "animes", ObjectManga[].class);
+	public RequestAnimes(ShikimoriApp app) {
+		super(app, "animes", ObjectAnime[].class);
 	}
 
 	public RequestAnimes setSearch(String search) {

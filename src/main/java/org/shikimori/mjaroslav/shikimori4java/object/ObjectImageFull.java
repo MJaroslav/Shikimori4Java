@@ -1,6 +1,6 @@
 package org.shikimori.mjaroslav.shikimori4java.object;
 
-import org.shikimori.mjaroslav.shikimori4java.core.ShikimoriApi;
+import org.shikimori.mjaroslav.shikimori4java.core.ShikimoriInfo;
 import org.shikimori.mjaroslav.shikimori4java.utils.Utils;
 
 import com.google.gson.annotations.SerializedName;
@@ -24,35 +24,35 @@ public class ObjectImageFull extends ObjectImage {
 	public String x16;
 
 	public String getX160Full() {
-		return ShikimoriApi.siteUrl + x160;
+		return ShikimoriInfo.API + x160;
 	}
 
 	public String getX148Full() {
-		return ShikimoriApi.siteUrl + x148;
+		return ShikimoriInfo.API + x148;
 	}
 
 	public String getX96Full() {
-		return ShikimoriApi.siteUrl + x96;
+		return ShikimoriInfo.API + x96;
 	}
 
 	public String getX80Full() {
-		return ShikimoriApi.siteUrl + x80;
+		return ShikimoriInfo.API + x80;
 	}
 
 	public String getX64Full() {
-		return ShikimoriApi.siteUrl + x64;
+		return ShikimoriInfo.API + x64;
 	}
 
 	public String getX48Full() {
-		return ShikimoriApi.siteUrl + x48;
+		return ShikimoriInfo.API + x48;
 	}
 
 	public String getX32Full() {
-		return ShikimoriApi.siteUrl + x32;
+		return ShikimoriInfo.API + x32;
 	}
 
 	public String getX16Full() {
-		return ShikimoriApi.siteUrl + x16;
+		return ShikimoriInfo.API + x16;
 	}
 
 	public String getMin() {
@@ -77,7 +77,7 @@ public class ObjectImageFull extends ObjectImage {
 	}
 
 	public String getMinFull() {
-		return ShikimoriApi.siteUrl + getMin();
+		return ShikimoriInfo.API + getMin();
 	}
 
 	public String getMax() {
@@ -102,6 +102,6 @@ public class ObjectImageFull extends ObjectImage {
 	}
 
 	public String getMaxFull() {
-		return ShikimoriApi.siteUrl + getMax();
+		return ShikimoriInfo.API + getMax();
 	}
 }

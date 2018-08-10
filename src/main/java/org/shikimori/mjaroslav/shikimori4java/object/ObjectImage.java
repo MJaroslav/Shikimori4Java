@@ -1,6 +1,6 @@
 package org.shikimori.mjaroslav.shikimori4java.object;
 
-import org.shikimori.mjaroslav.shikimori4java.core.ShikimoriApi;
+import org.shikimori.mjaroslav.shikimori4java.core.ShikimoriInfo;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -11,10 +11,10 @@ public class ObjectImage {
 	public String preview;
 
 	public String getOriginalFull() {
-		return ShikimoriApi.siteUrl + original;
+		return ShikimoriInfo.SHIKIMORI + original;
 	}
 
 	public String getPreviewFull() {
-		return ShikimoriApi.siteUrl + preview;
+		return ShikimoriInfo.SHIKIMORI + preview;
 	}
 }

@@ -7,16 +7,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.shikimori.mjaroslav.shikimori4java.core.ShikimoriApi;
-import org.shikimori.mjaroslav.shikimori4java.core.ShikimoriClient;
+import org.shikimori.mjaroslav.shikimori4java.core.ShikimoriApp;
+import org.shikimori.mjaroslav.shikimori4java.core.ShikimoriInfo;
 import org.shikimori.mjaroslav.shikimori4java.utils.Utils;
 
 import com.github.kevinsawicki.http.HttpRequest;
 
-public class RequestBase<T> {
+public abstract class RequestBase<T> {
 	protected String method;
 	private final Class<T> responceType;
-	private ShikimoriClient client;
+	private ShikimoriApp app;
 	protected Map<String, Object> params = new HashMap<String, Object>();
 	private Charset charset = StandardCharsets.UTF_8;
 
@@ -41,8 +41,8 @@ public class RequestBase<T> {
 		this.responceType = responceType;
 	}
 
-	public RequestBase(ShikimoriClient client, String method, Class<T> responceType) {
-		this.client = client;
+	public RequestBase(ShikimoriApp app, String method, Class<T> responceType) {
+		this.app = app;
 		this.method = method;
 		this.responceType = responceType;
 	}
@@ -52,15 +52,11 @@ public class RequestBase<T> {
 	}
 
 	public String getUrl() {
-		return ShikimoriApi.apiUrl + "/" + getMethod();
+		return ShikimoriInfo.API + "/" + getMethod();
 	}
 
-	public void setClient(ShikimoriClient client) {
-		this.client = client;
-	}
-
-	public ShikimoriClient getClient() {
-		return client;
+	public ShikimoriApp getApp() {
+		return app;
 	}
 
 	public Object[] getParams() {
@@ -77,10 +73,16 @@ public class RequestBase<T> {
 
 	public T execute() {
 		HttpRequest request = null;
-		if (Utils.clientExist(getClient()))
-			request = HttpRequest.get(getUrl(), true, getParams()).userAgent(getClient().getUserAgent())
-					.header("Authorization", getClient().getAuthorization());
+		request = HttpRequest.get(getUrl(), true, getParams()).userAgent(getApp().getUserAgent())
+				.header("Authorization", getApp().getAuthorization());
 		return Utils.fromJson(request.body(charset.name()), getResponceType());
+	}
+
+	public String getJSON() {
+		HttpRequest request = null;
+		request = HttpRequest.get(getUrl(), true, getParams()).userAgent(getApp().getUserAgent())
+				.header("Authorization", getApp().getAuthorization());
+		return request.body(charset.name());
 	}
 
 	public void setCharset(Charset charset) {

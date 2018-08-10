@@ -9,6 +9,6 @@ public class ApiUsers extends ApiBase {
 	}
 
 	public RequestUsersWhoami whoami() {
-		return new RequestUsersWhoami(getClient());
+		return new RequestUsersWhoami(getApp());
 	}
 }

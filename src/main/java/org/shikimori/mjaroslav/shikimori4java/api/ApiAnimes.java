@@ -16,46 +16,46 @@ public class ApiAnimes extends ApiBase {
 	}
 
 	public RequestAnimes pattern() {
-		return new RequestAnimes(getClient());
+		return new RequestAnimes(getApp());
 	}
 
 	public RequestAnimes top() {
-		return new RequestAnimes(getClient()).setLimit(50);
+		return new RequestAnimes(getApp()).setLimit(50);
 	}
 
 	public RequestAnimes search(String search) {
-		return new RequestAnimes(getClient()).setSearch(search);
+		return new RequestAnimes(getApp()).setSearch(search);
 	}
 
 	public RequestAnimes search(String search, int limit) {
-		return new RequestAnimes(getClient()).setSearch(search).setLimit(limit);
+		return new RequestAnimes(getApp()).setSearch(search).setLimit(limit);
 	}
 
 	public RequestAnimesId id(int id) {
-		return new RequestAnimesId(getClient(), id);
+		return new RequestAnimesId(getApp(), id);
 	}
 
 	public RequestAnimesSimilar similar(int id) {
-		return new RequestAnimesSimilar(getClient(), id);
+		return new RequestAnimesSimilar(getApp(), id);
 	}
 
 	public RequestAnimesScreenshots screenshots(int id) {
-		return new RequestAnimesScreenshots(getClient(), id);
+		return new RequestAnimesScreenshots(getApp(), id);
 	}
 
 	public RequestAnimesRoles roles(int id) {
-		return new RequestAnimesRoles(getClient(), id);
+		return new RequestAnimesRoles(getApp(), id);
 	}
 
 	public RequestAnimesRelated related(int id) {
-		return new RequestAnimesRelated(getClient(), id);
+		return new RequestAnimesRelated(getApp(), id);
 	}
 
 	public RequestAnimesFranchise franchise(int id) {
-		return new RequestAnimesFranchise(getClient(), id);
+		return new RequestAnimesFranchise(getApp(), id);
 	}
 
 	public RequestAnimesExternalLink externalLink(int id) {
-		return new RequestAnimesExternalLink(getClient(), id);
+		return new RequestAnimesExternalLink(getApp(), id);
 	}
 }

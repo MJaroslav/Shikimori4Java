@@ -1,6 +1,6 @@
 package org.shikimori.mjaroslav.shikimori4java.object;
 
-import org.shikimori.mjaroslav.shikimori4java.core.ShikimoriApi;
+import org.shikimori.mjaroslav.shikimori4java.core.ShikimoriInfo;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -17,7 +17,7 @@ public class ObjectAnime {
 	public String url;
 
 	public String getUrlFull() {
-		return ShikimoriApi.siteUrl + url;
+		return ShikimoriInfo.API + url;
 	}
 
 	@SerializedName("kind")
