@@ -9,6 +9,8 @@ import java.util.Map.Entry;
 
 import org.shikimori.mjaroslav.shikimori4java.core.ShikimoriApp;
 import org.shikimori.mjaroslav.shikimori4java.core.ShikimoriInfo;
+import org.shikimori.mjaroslav.shikimori4java.object.ObjectError;
+import org.shikimori.mjaroslav.shikimori4java.utils.ShikimoriException;
 import org.shikimori.mjaroslav.shikimori4java.utils.Utils;
 
 import com.github.kevinsawicki.http.HttpRequest;
@@ -17,6 +19,7 @@ public abstract class RequestBase<T> {
 	protected String method;
 	private final Class<T> responceType;
 	private ShikimoriApp app;
+	private boolean needToken = true;
 	protected Map<String, Object> params = new HashMap<String, Object>();
 	private Charset charset = StandardCharsets.UTF_8;
 
@@ -71,18 +74,26 @@ public abstract class RequestBase<T> {
 		return result.toArray(new Object[0]);
 	}
 
-	public T execute() {
-		HttpRequest request = null;
-		request = HttpRequest.get(getUrl(), true, getParams()).userAgent(getApp().getUserAgent())
-				.header("Authorization", getApp().getAuthorization());
-		return Utils.fromJson(request.body(charset.name()), getResponceType());
+	public T execute() throws ShikimoriException {
+		return Utils.fromJson(executeJSON(), getResponceType());
 	}
 
-	public String getJSON() {
-		HttpRequest request = null;
-		request = HttpRequest.get(getUrl(), true, getParams()).userAgent(getApp().getUserAgent())
+	public String executeJSON() throws ShikimoriException {
+		HttpRequest request = HttpRequest.get(getUrl(), true, getParams()).userAgent(getApp().getUserAgent())
 				.header("Authorization", getApp().getAuthorization());
-		return request.body(charset.name());
+		if (isNeedToken())
+			request.header("Authorization", getApp().getAuthorization());
+		String json = request.body(charset.name());
+		getApp().getAppLogger().debug(json);
+		try {
+			ObjectError error = Utils.fromJson(json, ObjectError.class);
+			if (!error.hasError())
+				return json;
+			else
+				throw new ShikimoriException(error);
+		} catch (Exception e) {
+			return json;
+		}
 	}
 
 	public void setCharset(Charset charset) {
@@ -95,5 +106,13 @@ public abstract class RequestBase<T> {
 
 	public Class<T> getResponceType() {
 		return responceType;
+	}
+
+	public boolean isNeedToken() {
+		return needToken;
+	}
+
+	public void setNeedToken(boolean needToken) {
+		this.needToken = needToken;
 	}
 }

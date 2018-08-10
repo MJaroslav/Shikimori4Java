@@ -2,7 +2,7 @@ package org.shikimori.mjaroslav.shikimori4java.object;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ObjectAccessToken {
+public class ObjectAccessToken extends ObjectError {
 	@SerializedName("access_token")
 	public String accessToken;
 
@@ -17,17 +17,4 @@ public class ObjectAccessToken {
 
 	@SerializedName("created_at")
 	public long createdAt;
-
-	@SerializedName("error")
-	public String error;
-
-	@SerializedName("error_description")
-	public String errorDesc;
-
-	@SerializedName("state")
-	public String state;
-
-	public boolean isLogged() {
-		return (error == null || error.equals("")) && (state == null || !state.equals("unauthorized"));
-	}
 }

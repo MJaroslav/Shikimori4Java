@@ -15,7 +15,7 @@ public class DefaultTokenStorage implements ITokenStorage {
 
 	@Override
 	public void saveToken(String appName, String nickname, ObjectAccessToken token) throws Exception {
-		if (token.isLogged())
+		if (token.isNotAuthError())
 			if ((getFolder().exists() && getFolder().isDirectory()) || getFolder().mkdirs()) {
 				File dir = getFolder().toPath().resolve(appName).toFile();
 				if ((dir.exists() && dir.isDirectory()) || dir.mkdirs()) {

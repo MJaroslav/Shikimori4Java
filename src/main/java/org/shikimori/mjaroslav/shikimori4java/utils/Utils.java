@@ -10,7 +10,6 @@ public class Utils {
 	}
 
 	public static <T> T fromJson(String json, Class<T> clazz) {
-		System.out.println(json);
 		return gson.fromJson(json, clazz);
 	}
 }

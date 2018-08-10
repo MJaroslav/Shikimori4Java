@@ -20,15 +20,15 @@ public class ApiAnimes extends ApiBase {
 	}
 
 	public RequestAnimes top() {
-		return new RequestAnimes(getApp()).setLimit(50);
+		return pattern().setLimit(50);
 	}
 
 	public RequestAnimes search(String search) {
-		return new RequestAnimes(getApp()).setSearch(search);
+		return pattern().setSearch(search);
 	}
 
 	public RequestAnimes search(String search, int limit) {
-		return new RequestAnimes(getApp()).setSearch(search).setLimit(limit);
+		return pattern().setSearch(search).setLimit(limit);
 	}
 
 	public RequestAnimesId id(int id) {

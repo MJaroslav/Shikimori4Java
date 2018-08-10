@@ -1,10 +1,13 @@
 package org.shikimori.mjaroslav.shikimori4java.core;
 
+import java.nio.charset.StandardCharsets;
+
 import org.shikimori.mjaroslav.shikimori4java.api.ApiAnimes;
 import org.shikimori.mjaroslav.shikimori4java.api.ApiMangas;
 import org.shikimori.mjaroslav.shikimori4java.api.ApiUsers;
 import org.shikimori.mjaroslav.shikimori4java.object.ObjectAccessToken;
 import org.shikimori.mjaroslav.shikimori4java.object.ObjectUserFull;
+import org.shikimori.mjaroslav.shikimori4java.utils.ShikimoriException;
 import org.shikimori.mjaroslav.shikimori4java.utils.Utils;
 
 import com.github.kevinsawicki.http.HttpRequest;
@@ -23,6 +26,7 @@ public class ShikimoriApp {
 	//
 	private IAuthWrapper authWrapper = new DefaultAuthWrapper();
 	private ITokenStorage tokenStorage = new DefaultTokenStorage();
+	private IAppLogger appLogger = new DefaultAppLogger();
 
 	//
 	// USER DATA
@@ -38,6 +42,14 @@ public class ShikimoriApp {
 	private ApiMangas mangas = new ApiMangas(this);
 	private ApiUsers users = new ApiUsers(this);
 
+	/**
+	 * Create new wrapper object for shikimori application.
+	 * 
+	 * @param name         Use application name from shikimori applications page.
+	 * @param clientId     Application client ID. See on /edit page of application.
+	 * @param clientSecret Application client secret code. See on /edit page of
+	 *                     application.
+	 */
 	public ShikimoriApp(String name, String clientId, String clientSecret) {
 		this.appName = name;
 		this.clientId = clientId;
@@ -54,6 +66,10 @@ public class ShikimoriApp {
 
 	public void setRedirectUri(String redirectUri) {
 		this.redirectUri = redirectUri;
+	}
+
+	public void setAppLogger(IAppLogger appLogger) {
+		this.appLogger = appLogger;
 	}
 
 	public String getAppName() {
@@ -76,6 +92,10 @@ public class ShikimoriApp {
 		return redirectUri;
 	}
 
+	public IAppLogger getAppLogger() {
+		return appLogger;
+	}
+
 	public ITokenStorage getTokenStorage() {
 		return tokenStorage;
 	}
@@ -91,23 +111,37 @@ public class ShikimoriApp {
 				.userAgent(getUserAgent());
 	}
 
-	public void auth(String nickname) throws Exception {
-		this.token = tokenStorage.loadToken(appName, nickname);
-		initUser();
-		if (!Utils.stringNotEmpty(getUsername()))
-			refreshToken();
+	public void auth(String nickname, boolean reloginOnError) throws Exception {
+		try {
+			this.token = tokenStorage.loadToken(appName, nickname);
+		} catch (Exception e) {
+			if (reloginOnError) {
+				getAppLogger().debug("Relogin for " + nickname);
+				auth();
+			} else
+				throw new ShikimoriException("Token for " + nickname + " not found!");
+		}
+		try {
+			initUser();
+		} catch (Exception e) {
+			if (e instanceof ShikimoriException && ((ShikimoriException) e).isAuthError()) {
+				getAppLogger().debug("Refreshing token for " + nickname);
+				refreshToken();
+			} else
+				throw new ShikimoriException("Can't refresh token for " + nickname);
+		}
 	}
 
 	public void auth() throws Exception {
 		authWrapper.sendRequest(createCodeRequest().url());
 		ObjectAccessToken token = Utils.fromJson(createTokenRequest(authWrapper.getResponse()).body(),
 				ObjectAccessToken.class);
-		if (token.isLogged()) {
+		if (!token.hasError()) {
 			this.token = token;
 			initUser();
 			tokenStorage.saveToken(appName, getUsername(), token);
 		} else
-			throw new Exception(token.error + ": " + token.errorDesc);
+			throw new ShikimoriException(token);
 	}
 
 	public HttpRequest createRefreshTokenRequest() {
@@ -119,28 +153,29 @@ public class ShikimoriApp {
 
 	public void refreshToken() throws Exception {
 		HttpRequest req = createRefreshTokenRequest();
-		String json = req.body();
-		System.out.println(json + "\n" + req.url());
-		ObjectAccessToken token = Utils.fromJson(json, ObjectAccessToken.class);
-		if (token.isLogged()) {
+		ObjectAccessToken token = Utils.fromJson(req.body(StandardCharsets.UTF_8.name()), ObjectAccessToken.class);
+		if (!token.hasError()) {
 			this.token = token;
 			initUser();
 			tokenStorage.saveToken(appName, getUsername(), token);
 		} else
-			throw new Exception(token.error + ": " + token.errorDesc);
+			throw new ShikimoriException(token);
 	}
 
-	public void initUser() {
+	public void initUser() throws ShikimoriException {
 		ObjectUserFull user = getUser();
+		if (!Utils.stringNotEmpty(user.nickname))
+			throw new ShikimoriException("Can't get user for " + getAppName() + " app!", true);
 		username = user.nickname;
 		userId = user.id;
 	}
 
-	public ObjectUserFull getUser() {
-		//if (userId <= 0) {
-			return users().whoami().execute();
-		/*} else
-			return null;*/
+	public ObjectUserFull getUser() throws ShikimoriException {
+		// if (userId <= 0) {
+		return users().whoami().execute();
+		/*
+		 * } else return users().get(id).execute();
+		 */
 	}
 
 	public int getUserId() {
