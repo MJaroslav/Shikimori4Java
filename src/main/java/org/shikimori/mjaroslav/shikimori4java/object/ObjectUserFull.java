@@ -4,43 +4,34 @@ import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
 
-public class ObjectUserFull extends ObjectUser {
-	@SerializedName("name")
-	public String name;
+public class ObjectUserFull extends ObjectUserMe {
+    @SerializedName("full_years")
+    public int fullYears;
 
-	@SerializedName("sex")
-	public String sex;
+    @SerializedName("last_online")
+    public String lastOnline;
 
-	@SerializedName("full_years")
-	public int fullYears;
+    @SerializedName("location")
+    public String location;
 
-	@SerializedName("last_online")
-	public String lastOnline;
+    @SerializedName("banned")
+    public boolean banned;
 
-	@SerializedName("website")
-	public String website;
+    @SerializedName("about")
+    public String about;
 
-	@SerializedName("location")
-	public String location;
+    @SerializedName("about_html")
+    public String aboutHtml;
 
-	@SerializedName("banned")
-	public boolean banned;
+    @SerializedName("common_info")
+    public List<String> commonInfo;
 
-	@SerializedName("about")
-	public String about;
+    @SerializedName("show_comments")
+    public boolean showComments;
 
-	@SerializedName("about_html")
-	public String aboutHtml;
+    @SerializedName("in_frends")
+    public List<ObjectUser> inFrends;
 
-	@SerializedName("common_info")
-	public List<String> commonInfo;
-
-	@SerializedName("show_comments")
-	public boolean showComments;
-
-	@SerializedName("in_frends")
-	public List<ObjectUser> inFrends;
-
-	@SerializedName("is_ignored")
-	public boolean isIgnored;
+    @SerializedName("is_ignored")
+    public boolean isIgnored;
 }
