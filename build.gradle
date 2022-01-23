@@ -1,36 +1,36 @@
 apply plugin: 'java'
 
+def buildprop = new Properties()
+file("build.properties").withInputStream { buildprop.load(it) }
 
-archivesBaseName = "Shikimori4Java"
-version = "1.0.0"
+archivesBaseName = buildprop.name
+group = buildprop.group
+version = buildprop.version
 
-compileJava.options.encoding = 'UTF-8'
-
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-}
-
-task fatJar(type: Jar) {
-    baseName = project.name + "-all"
-    from {
-    	configurations.compile.collect {
-    		it.isDirectory() ? it : zipTree(it)
-    	}
-    }
-    with jar
-}
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
 repositories {
     jcenter()
-    maven {
-    	url  "https://jitpack.io"
-    }
+    mavenCentral()
 }
 
 dependencies {
-    compile "com.google.code.gson:gson:2.8.2"
-	compile "org.apache.logging.log4j:log4j-slf4j-impl:2.7"
-	compile "org.apache.logging.log4j:log4j-api:2.7" 
-    compile "org.apache.logging.log4j:log4j-core:2.7"
-    compile "com.github.kevinsawicki:http-request:5.6"
+	implementation "org.apache.logging.log4j:log4j-slf4j-impl:${buildprop.log4j_version}"
+	implementation "org.apache.logging.log4j:log4j-api:${buildprop.log4j_version}" 
+    implementation "org.apache.logging.log4j:log4j-core:${buildprop.log4j_version}"
+    implementation "com.github.kevinsawicki:http-request:${buildprop.http_version}"
+    implementation "blue.endless:jankson:${buildprop.jankson_version}"
+
+    testImplementation "org.junit.jupiter:junit-jupiter:${buildprop.junit_version}"
+    implementation "org.jetbrains:annotations:${buildprop.jba_version}"
+    compileOnly "org.projectlombok:lombok:${buildprop.lombok_version}"
+    annotationProcessor "org.projectlombok:lombok:${buildprop.lombok_version}"
+    testCompileOnly "org.projectlombok:lombok:${buildprop.lombok_version}"
+    testAnnotationProcessor "org.projectlombok:lombok:${buildprop.lombok_version}"
 }
+
+test {
+    useJUnitPlatform()
+}
+
