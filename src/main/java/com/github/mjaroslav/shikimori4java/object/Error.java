@@ -6,13 +6,9 @@ import lombok.ToString;
 
 @ToString
 public class Error {
-    @SerializedName("error")
     public String error;
-
     @SerializedName("error_description")
     public String errorDesc;
-
-    @SerializedName("state")
     public String state;
 
     public boolean isAuthError() {

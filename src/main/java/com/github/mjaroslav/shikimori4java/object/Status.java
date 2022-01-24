@@ -38,4 +38,10 @@ public enum Status {
                 return check;
         return UNKNOWN;
     }
+
+
+    @Override
+    public String toString() {
+        return value;
+    }
 }

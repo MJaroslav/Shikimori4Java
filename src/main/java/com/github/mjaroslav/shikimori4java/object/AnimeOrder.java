@@ -19,11 +19,17 @@ public enum AnimeOrder {
         return this != UNKNOWN;
     }
 
+
     @NotNull
     public static AnimeOrder fromValue(@Nullable String value) {
         for (val check : values())
             if (check.value.equals(value))
                 return check;
         return UNKNOWN;
+    }
+
+    @Override
+    public String toString() {
+        return value;
     }
 }

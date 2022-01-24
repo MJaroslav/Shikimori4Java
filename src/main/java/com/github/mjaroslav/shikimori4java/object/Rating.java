@@ -38,4 +38,9 @@ public enum Rating {
                 return check;
         return UNKNOWN;
     }
+
+    @Override
+    public String toString() {
+        return value;
+    }
 }

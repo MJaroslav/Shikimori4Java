@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 public class ShikimoriAppTests {
     private static ShikimoriApp app;
 
@@ -14,20 +16,24 @@ public class ShikimoriAppTests {
         val auth = new TestAuthHandler();
         app = new ShikimoriApp(auth.getName(), auth.getClientId(), auth.getClientSecret(), null);
         app.setAuthHandler(auth);
-        app.login();
+        Assertions.assertTrue(app.login(), "Can't login!");
     }
 
     @Test
     public void animes_id() {
         val expected = "Cowboy Bebop";
-        val actual = app.animes().id(1).execute().name;
+        val response = app.animes().id(1).execute();
+        app.getLogger().debug(response.toString());
+        val actual = response.name;
         Assertions.assertEquals(expected, actual);
     }
 
     @Test
     public void animes_search() {
         val expected = "Trigun";
-        val actual = app.animes().search("Trigun", 1).execute()[0].name;
+        val response = app.animes().search("Trigun", 1).execute();
+        app.getLogger().debug(Arrays.toString(response));
+        val actual = response[0].name;
         Assertions.assertEquals(expected, actual);
     }
 }

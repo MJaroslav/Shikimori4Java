@@ -26,4 +26,9 @@ public enum MangaOrder {
                 return check;
         return UNKNOWN;
     }
+
+    @Override
+    public String toString() {
+        return value;
+    }
 }

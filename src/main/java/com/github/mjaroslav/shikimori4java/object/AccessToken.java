@@ -1,7 +1,9 @@
 package com.github.mjaroslav.shikimori4java.object;
 
 import blue.endless.jankson.annotation.SerializedName;
+import lombok.ToString;
 
+@ToString(callSuper = true)
 public class AccessToken extends Error {
     @SerializedName("access_token")
     public String accessToken;

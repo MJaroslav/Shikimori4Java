@@ -39,4 +39,9 @@ public enum MangaKind {
                 return check;
         return UNKNOWN;
     }
+
+    @Override
+    public String toString() {
+        return value;
+    }
 }

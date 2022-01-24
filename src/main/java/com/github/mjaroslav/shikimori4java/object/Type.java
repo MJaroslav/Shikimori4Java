@@ -39,4 +39,9 @@ public enum Type {
                 return check;
         return UNKNOWN;
     }
+
+    @Override
+    public String toString() {
+        return value;
+    }
 }

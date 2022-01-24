@@ -37,6 +37,21 @@ public class ShikimoriInfo {
     public static final String METHOD_MANGAS_FRANCHISE = METHOD_MANGAS_GET_ID + "/franchise";
     public static final String METHOD_MANGAS_EXTERNAL_LINKS = METHOD_MANGAS_GET_ID + "/external_links";
 
+    public static final String METHOD_USERS_GET = "users";
+    public static final String METHOD_USERS_GET_ID = METHOD_USERS_GET + "/%s";
+    public static final String METHOD_USERS_INFO = METHOD_USERS_GET_ID + "/info";
+    public static final String METHOD_USERS_WHOAMI = METHOD_USERS_GET + "/whoami";
+    public static final String METHOD_USERS_SIGN_OUT = METHOD_USERS_GET + "/sign_out";
+    public static final String METHOD_USERS_FRIENDS = METHOD_USERS_GET_ID + "/friends";
+    public static final String METHOD_USERS_CLUBS = METHOD_USERS_GET_ID + "/clubs";
+    public static final String METHOD_USERS_ANIME_RATES = METHOD_USERS_GET_ID + "/anime_rates";
+    public static final String METHOD_USERS_MANGA_RATES = METHOD_USERS_GET_ID + "/manga_rates";
+    public static final String METHOD_USERS_FAVOURITES = METHOD_USERS_GET_ID + "/favourites";
+    public static final String METHOD_USERS_MESSAGES = METHOD_USERS_GET_ID + "/messages";
+    public static final String METHOD_USERS_UNREAD_MESSAGES = METHOD_USERS_GET_ID + "/unread_messages";
+    public static final String METHOD_USERS_HISTORY = METHOD_USERS_GET_ID + "/history";
+    public static final String METHOD_USERS_BANS = METHOD_USERS_GET_ID + "/bans";
+
     public static final String PARAM_ANIMES_GET_SEARCH = "search";
     public static final String PARAM_ANIMES_GET_LIMIT = "limit";
     public static final String PARAM_ANIMES_GET_PAGE = "page";
@@ -70,4 +85,7 @@ public class ShikimoriInfo {
     public static final String PARAM_MANGAS_GET_MY_LIST = "mylist";
     public static final String PARAM_MANGAS_GET_IDS = "ids";
     public static final String PARAM_MANGAS_GET_EXCLUDE_IDS = "exclude_ids";
+
+    public static final String PARAM_USERS_GET_LIMIT = "limit";
+    public static final String PARAM_USERS_GET_PAGE = "page";
 }

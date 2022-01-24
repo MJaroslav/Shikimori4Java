@@ -1,7 +1,9 @@
 package com.github.mjaroslav.shikimori4java.util;
 
 import blue.endless.jankson.Jankson;
+import blue.endless.jankson.JsonObject;
 import blue.endless.jankson.api.SyntaxError;
+import com.github.mjaroslav.shikimori4java.object.Image;
 import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -14,7 +16,8 @@ import java.nio.file.Path;
 
 @UtilityClass
 public class Utils {
-    public final Jankson JANKSON = Jankson.builder().allowBareRootObject().build();
+    public final Jankson JANKSON = Jankson.builder().registerDeserializer(JsonObject.class, Image.class,
+            new ImageDeserializer()).build();
 
     @Contract("null -> false")
     public boolean stringNotEmpty(@Nullable String str) {

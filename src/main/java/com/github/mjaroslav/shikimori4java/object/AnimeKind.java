@@ -2,13 +2,11 @@ package com.github.mjaroslav.shikimori4java.object;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 import lombok.val;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @RequiredArgsConstructor
-@ToString
 public enum AnimeKind {
     TV("tv"), MOVIE("movie"), OVA("ova"), ONA("ona"), SPECIAL("special"), MUSIC("music"), TV13("tv_13"), TV24("tv_24"),
     TV48("tv_48"),
@@ -28,6 +26,11 @@ public enum AnimeKind {
 
     public boolean isKnown() {
         return this != UNKNOWN;
+    }
+
+    @Override
+    public String toString() {
+        return value;
     }
 
     @NotNull

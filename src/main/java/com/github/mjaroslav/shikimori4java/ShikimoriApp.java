@@ -8,7 +8,7 @@ import com.github.mjaroslav.shikimori4java.auth.TokenStorage;
 import com.github.mjaroslav.shikimori4java.auth.impl.DefaultAuthHandler;
 import com.github.mjaroslav.shikimori4java.auth.impl.DefaultTokenStorage;
 import com.github.mjaroslav.shikimori4java.object.UserExtended;
-import com.github.mjaroslav.shikimori4java.object.UserMe;
+import com.github.mjaroslav.shikimori4java.object.User;
 import com.github.mjaroslav.shikimori4java.logger.Logger;
 import com.github.mjaroslav.shikimori4java.throwable.ShikimoriException;
 import com.github.mjaroslav.shikimori4java.util.Utils;
@@ -92,7 +92,7 @@ public class ShikimoriApp {
     @NotNull
     public UserExtended getUser() throws ShikimoriException {
         if (userId <= 0) {
-            UserMe me = users().whoami().execute();
+            User me = users().whoami().execute();
             return users().id(me.id).execute();
         } else
             return users().id(userId).execute();

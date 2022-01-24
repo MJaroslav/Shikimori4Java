@@ -1,15 +1,13 @@
 package com.github.mjaroslav.shikimori4java.object;
 
 import blue.endless.jankson.annotation.SerializedName;
+import lombok.ToString;
 
+@ToString
 public class ExternalLink {
-    @SerializedName("id")
     public int id;
-    @SerializedName("kind")
     public String kind;
-    @SerializedName("url")
     public String url;
-    @SerializedName("source")
     public String source;
     @SerializedName("entry_id")
     public int entryId;

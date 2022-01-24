@@ -38,4 +38,9 @@ public enum Duration {
                 return check;
         return UNKNOWN;
     }
+
+    @Override
+    public String toString() {
+        return value;
+    }
 }

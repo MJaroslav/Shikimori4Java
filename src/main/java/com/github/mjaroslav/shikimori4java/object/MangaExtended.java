@@ -1,29 +1,25 @@
 package com.github.mjaroslav.shikimori4java.object;
 
 import blue.endless.jankson.annotation.SerializedName;
+import lombok.ToString;
 
 import java.util.List;
 
+@ToString(callSuper = true)
 public class MangaExtended extends Manga {
     @SerializedName("english")
     public List<String> nameEnglish;
     @SerializedName("japanese")
     public List<String> nameJapanese;
-    @SerializedName("synonyms")
     public List<String> synonyms;
-    @SerializedName("score")
     public String score;
-    @SerializedName("description")
     public String description;
     @SerializedName("description_html")
     public String descriptionHtml;
     @SerializedName("description_source")
     public String descriptionSource;
-    @SerializedName("favoured")
     public boolean favoured;
-    @SerializedName("anons")
     public boolean anons;
-    @SerializedName("ongoing")
     public boolean ongoing;
     @SerializedName("thread_id")
     public int threadId;
