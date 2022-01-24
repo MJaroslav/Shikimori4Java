@@ -1,6 +1,6 @@
 package com.github.mjaroslav.shikimori4java.auth;
 
-import com.github.mjaroslav.shikimori4java.object.ObjectAccessToken;
+import com.github.mjaroslav.shikimori4java.object.AccessToken;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnknownNullability;
@@ -10,9 +10,9 @@ public interface AuthHandler {
                  @NotNull String appName);
 
     @UnknownNullability
-    ObjectAccessToken getToken();
+    AccessToken getToken();
 
-    void setToken(@Nullable ObjectAccessToken token);
+    void setToken(@Nullable AccessToken token);
 
     boolean isAuthorized();
 

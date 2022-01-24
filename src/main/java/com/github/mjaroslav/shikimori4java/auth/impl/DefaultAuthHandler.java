@@ -2,7 +2,7 @@ package com.github.mjaroslav.shikimori4java.auth.impl;
 
 import com.github.mjaroslav.shikimori4java.auth.Auth;
 import com.github.mjaroslav.shikimori4java.auth.AuthHandler;
-import com.github.mjaroslav.shikimori4java.object.ObjectAccessToken;
+import com.github.mjaroslav.shikimori4java.object.AccessToken;
 import com.github.mjaroslav.shikimori4java.util.Utils;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +16,7 @@ public final class DefaultAuthHandler implements AuthHandler {
     @Getter
     @Setter
     @UnknownNullability
-    private ObjectAccessToken token;
+    private AccessToken token;
 
     @Override
     public boolean auth(@NotNull String clientId, @NotNull String clientSecret, @NotNull String redirectUri,
@@ -28,7 +28,7 @@ public final class DefaultAuthHandler implements AuthHandler {
             val code = String.valueOf(System.console().readLine("Enter code: "));
             val tokenRequest = Auth.createAuthorizationTokenRequest(clientId, clientSecret, redirectUri,
                     code, appName);
-            val token = Utils.fromJson(tokenRequest.body(), ObjectAccessToken.class);
+            val token = Utils.fromJson(tokenRequest.body(), AccessToken.class);
             if (token == null || token.hasError())
                 return false;
             setToken(token);
@@ -47,7 +47,7 @@ public final class DefaultAuthHandler implements AuthHandler {
     public boolean refreshToken(@NotNull String clientId, @NotNull String clientSecret, @NotNull String appName,
                                 @NotNull String token) {
         val refreshRequest = Auth.createRefreshTokenRequest(token, clientId, clientSecret, appName);
-        val refreshedToken = Utils.fromJson(refreshRequest.body(), ObjectAccessToken.class);
+        val refreshedToken = Utils.fromJson(refreshRequest.body(), AccessToken.class);
         if (refreshedToken != null && !refreshedToken.hasError()) {
             setToken(refreshedToken);
             return true;

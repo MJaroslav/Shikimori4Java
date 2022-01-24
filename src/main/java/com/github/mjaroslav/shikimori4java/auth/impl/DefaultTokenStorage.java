@@ -1,7 +1,7 @@
 package com.github.mjaroslav.shikimori4java.auth.impl;
 
 import com.github.mjaroslav.shikimori4java.auth.TokenStorage;
-import com.github.mjaroslav.shikimori4java.object.ObjectAccessToken;
+import com.github.mjaroslav.shikimori4java.object.AccessToken;
 import com.github.mjaroslav.shikimori4java.util.Utils;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,12 +20,12 @@ public final class DefaultTokenStorage implements TokenStorage {
     private Path tokenPath = Paths.get("token.json");
 
     @Override
-    public @Nullable ObjectAccessToken loadToken() throws Exception {
-        return Utils.fromJson(Utils.readFileText(tokenPath), ObjectAccessToken.class);
+    public @Nullable AccessToken loadToken() throws Exception {
+        return Utils.fromJson(Utils.readFileText(tokenPath), AccessToken.class);
     }
 
     @Override
-    public void saveToken(@NotNull ObjectAccessToken token) throws Exception {
+    public void saveToken(@NotNull AccessToken token) throws Exception {
         Files.write(tokenPath, Collections.singleton(Utils.toJson(token)), StandardCharsets.UTF_8);
     }
 }

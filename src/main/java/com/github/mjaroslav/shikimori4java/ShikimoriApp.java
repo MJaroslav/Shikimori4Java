@@ -1,18 +1,18 @@
 package com.github.mjaroslav.shikimori4java;
 
-import com.github.mjaroslav.shikimori4java.api.ApiAnimes;
-import com.github.mjaroslav.shikimori4java.api.ApiMangas;
-import com.github.mjaroslav.shikimori4java.api.ApiUsers;
+import com.github.mjaroslav.shikimori4java.api.Animes;
+import com.github.mjaroslav.shikimori4java.api.Mangas;
+import com.github.mjaroslav.shikimori4java.api.Users;
 import com.github.mjaroslav.shikimori4java.auth.AuthHandler;
 import com.github.mjaroslav.shikimori4java.auth.TokenStorage;
 import com.github.mjaroslav.shikimori4java.auth.impl.DefaultAuthHandler;
 import com.github.mjaroslav.shikimori4java.auth.impl.DefaultTokenStorage;
-import com.github.mjaroslav.shikimori4java.object.ObjectUserFull;
-import com.github.mjaroslav.shikimori4java.object.ObjectUserMe;
-import com.github.mjaroslav.shikimori4java.util.Logger;
-import com.github.mjaroslav.shikimori4java.util.ShikimoriException;
+import com.github.mjaroslav.shikimori4java.object.UserExtended;
+import com.github.mjaroslav.shikimori4java.object.UserMe;
+import com.github.mjaroslav.shikimori4java.logger.Logger;
+import com.github.mjaroslav.shikimori4java.throwable.ShikimoriException;
 import com.github.mjaroslav.shikimori4java.util.Utils;
-import com.github.mjaroslav.shikimori4java.util.impl.DefaultLogger;
+import com.github.mjaroslav.shikimori4java.logger.impl.DefaultLogger;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -38,9 +38,9 @@ public class ShikimoriApp {
     @Setter(AccessLevel.NONE)
     private int userId;
 
-    private final ApiAnimes animes = new ApiAnimes(this);
-    private final ApiMangas mangas = new ApiMangas(this);
-    private final ApiUsers users = new ApiUsers(this);
+    private final Animes animes = new Animes(this);
+    private final Mangas mangas = new Mangas(this);
+    private final Users users = new Users(this);
 
     private boolean refreshOnError = true;
 
@@ -90,9 +90,9 @@ public class ShikimoriApp {
     }
 
     @NotNull
-    public ObjectUserFull getUser() throws ShikimoriException {
+    public UserExtended getUser() throws ShikimoriException {
         if (userId <= 0) {
-            ObjectUserMe me = users().whoami().execute();
+            UserMe me = users().whoami().execute();
             return users().id(me.id).execute();
         } else
             return users().id(userId).execute();
@@ -104,17 +104,17 @@ public class ShikimoriApp {
     }
 
     @NotNull
-    public ApiAnimes animes() {
+    public Animes animes() {
         return animes;
     }
 
     @NotNull
-    public ApiMangas mangas() {
+    public Mangas mangas() {
         return mangas;
     }
 
     @NotNull
-    public ApiUsers users() {
+    public Users users() {
         return users;
     }
 }
