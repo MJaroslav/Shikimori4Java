@@ -1,56 +1,64 @@
 package com.github.mjaroslav.shikimori4java.api;
 
 import com.github.mjaroslav.shikimori4java.ShikimoriApp;
-import com.github.mjaroslav.shikimori4java.request.mangas.RequestMangas;
-import com.github.mjaroslav.shikimori4java.request.mangas.RequestMangasExternalLink;
-import com.github.mjaroslav.shikimori4java.request.mangas.RequestMangasFranchise;
-import com.github.mjaroslav.shikimori4java.request.mangas.RequestMangasId;
-import com.github.mjaroslav.shikimori4java.request.mangas.RequestMangasRelated;
-import com.github.mjaroslav.shikimori4java.request.mangas.RequestMangasRoles;
-import com.github.mjaroslav.shikimori4java.request.mangas.RequestMangasSimilar;
+import com.github.mjaroslav.shikimori4java.object.*;
+import com.github.mjaroslav.shikimori4java.request.RequestBase;
+import com.github.mjaroslav.shikimori4java.request.RequestMangas;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Range;
 
 public class ApiMangas extends ApiBase {
-    public ApiMangas(ShikimoriApp app) {
+    public ApiMangas(@NotNull ShikimoriApp app) {
         super(app);
     }
 
+    @NotNull
     public RequestMangas pattern() {
-        return new RequestMangas(getApp());
+        return new RequestMangas(app);
     }
 
+    @NotNull
     public RequestMangas top() {
-        return new RequestMangas(getApp()).setLimit(50);
+        return new RequestMangas(app).setLimit(50);
     }
 
-    public RequestMangas search(String search) {
-        return new RequestMangas(getApp()).setSearch(search);
+    @NotNull
+    public RequestMangas search(@NotNull String search) {
+        return new RequestMangas(app).setSearch(search);
     }
 
-    public RequestMangas search(String search, int limit) {
-        return new RequestMangas(getApp()).setSearch(search).setLimit(limit);
+    @NotNull
+    public RequestMangas search(@NotNull String search, @Range(from = 1, to = 50) int limit) {
+        return new RequestMangas(app).setSearch(search).setLimit(limit);
     }
 
-    public RequestMangasId id(int id) {
-        return new RequestMangasId(getApp(), id);
+    @NotNull
+    public RequestBase<ObjectMangaFull> id(@Range(from = 1, to = Integer.MAX_VALUE) int id) {
+        return new RequestBase<>(app, "mangas/" + id, ObjectMangaFull.class);
     }
 
-    public RequestMangasSimilar similar(int id) {
-        return new RequestMangasSimilar(getApp(), id);
+    @NotNull
+    public RequestBase<ObjectManga[]> similar(@Range(from = 1, to = Integer.MAX_VALUE) int id) {
+        return new RequestBase<>(app, "mangas/" + id + "/similar", ObjectManga[].class);
     }
 
-    public RequestMangasRoles roles(int id) {
-        return new RequestMangasRoles(getApp(), id);
+    @NotNull
+    public RequestBase<ObjectRole[]> roles(@Range(from = 1, to = Integer.MAX_VALUE) int id) {
+        return new RequestBase<>(app, "mangas/" + id + "/roles", ObjectRole[].class);
     }
 
-    public RequestMangasRelated related(int id) {
-        return new RequestMangasRelated(getApp(), id);
+    @NotNull
+    public RequestBase<ObjectRelation[]> related(@Range(from = 1, to = Integer.MAX_VALUE) int id) {
+        return new RequestBase<>(app, "mangas/" + id + "/related", ObjectRelation[].class);
     }
 
-    public RequestMangasFranchise franchise(int id) {
-        return new RequestMangasFranchise(getApp(), id);
+    @NotNull
+    public RequestBase<ObjectFranchise> franchise(@Range(from = 1, to = Integer.MAX_VALUE) int id) {
+        return new RequestBase<>(app, "mangas/" + id + "/franchise", ObjectFranchise.class);
     }
 
-    public RequestMangasExternalLink externalLink(int id) {
-        return new RequestMangasExternalLink(getApp(), id);
+    @NotNull
+    public RequestBase<ObjectExternalLink[]> externalLink(@Range(from = 1, to = Integer.MAX_VALUE) int id) {
+        return new RequestBase<>(app, "mangas/" + id + "/external_links", ObjectExternalLink[].class);
     }
 }

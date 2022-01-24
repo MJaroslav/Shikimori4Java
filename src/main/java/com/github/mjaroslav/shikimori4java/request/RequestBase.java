@@ -17,7 +17,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Getter
 @ToString
-public abstract class RequestBase<T> {
+public class RequestBase<T> {
     @NotNull
     protected final ShikimoriApp app;
     @NotNull
@@ -73,7 +73,7 @@ public abstract class RequestBase<T> {
 
     protected String executeJSON(boolean tokenRefreshed) throws ShikimoriException {
         val request = HttpRequest.get(getUrl(), true, getParams()).userAgent(app.getAppName())
-                .header(ShikimoriInfo.HEADER_AUTHORIZATION, app.getAuthorization());
+                .authorization(app.getAuthorization());
         val json = request.body();
         app.getLogger().debug(json);
         try {

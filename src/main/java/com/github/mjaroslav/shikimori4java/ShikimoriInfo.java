@@ -19,6 +19,4 @@ public class ShikimoriInfo {
     public static final String REDIRECT_URI_DEFAULT = "urn:ietf:wg:oauth:2.0:oob";
     public static final String GRANT_TYPE_AUTHORIZATION_CODE = "authorization_code";
     public static final String GRANT_TYPE_REFRESH_TOKEN = "refresh_token";
-
-    public static final String HEADER_AUTHORIZATION = "Authorization";
 }

@@ -55,7 +55,7 @@ public class DefaultLogger implements Logger {
         if (message == null)
             message = "";
         message = String.format(message, args);
-        System.out.printf("%s: [%s] - %s %s%n", FORMAT.format(new Date()), Thread.currentThread().getName(), level,
+        System.out.printf("%s %s [%s] -  %s%n", FORMAT.format(new Date()), level, Thread.currentThread().getName(),
                 message);
         if (t != null)
             t.printStackTrace();

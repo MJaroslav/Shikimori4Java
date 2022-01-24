@@ -14,7 +14,7 @@ import java.nio.file.Path;
 
 @UtilityClass
 public class Utils {
-    public final Jankson JANKSON = Jankson.builder().build();
+    public final Jankson JANKSON = Jankson.builder().allowBareRootObject().build();
 
     @Contract("null -> false")
     public boolean stringNotEmpty(@Nullable String str) {
@@ -29,7 +29,7 @@ public class Utils {
     @Nullable
     public <T> T fromJson(@NotNull String json, @NotNull Class<T> clazz) {
         try {
-            return JANKSON.fromJson(json, clazz);
+            return JANKSON.getMarshaller().marshall(clazz, JANKSON.loadElement(json));
         } catch (SyntaxError e) {
             return null;
         }

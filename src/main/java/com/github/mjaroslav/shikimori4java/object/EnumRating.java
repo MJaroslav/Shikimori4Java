@@ -1,24 +1,41 @@
 package com.github.mjaroslav.shikimori4java.object;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.val;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+@RequiredArgsConstructor
 public enum EnumRating {
-    NONE("none"), G("g"), PG("pg"), PG13("pg_13"), R("r"), RPLUS("r_plus"), RX("rx"),
+    NONE("none"), G("g"), PG("pg"), PG13("pg_13"), R("r"), R_PLUS("r_plus"), RX("rx"),
 
-    NOTNONE("!none"), NOTG("!g"), NOTPG("!pg"), NOTPG13("!pg_13"), NOTR("!r"), NOTRPLUS("!r_plus"), NOTRX("!rx");
+    NOT_NONE("!none"), NOT_G("!g"), NOT_PG("!pg"), NOT_PG13("!pg_13"), NOT_R("!r"), NOT_R_PLUS("!r_plus"), NOT_RX("!rx"),
 
-    private final String stringValue;
+    UNKNOWN("unknown");
 
-    EnumRating(String value) {
-        stringValue = value;
+    @Getter
+    @NotNull
+    private final String value;
+
+    public boolean isExcluded() {
+        return value.startsWith("!");
     }
 
-    public String getStringValue() {
-        return stringValue;
+    public boolean isKnown() {
+        return this != UNKNOWN;
     }
 
-    public static EnumRating fromValue(String value) {
-        for (EnumRating check : values())
-            if (check.stringValue.equals(value))
+    @NotNull
+    public EnumRating reverse() {
+        return isKnown() ? isExcluded() ? fromValue(value.substring(1)) : fromValue("!" + value) : UNKNOWN;
+    }
+
+    @NotNull
+    public static EnumRating fromValue(@Nullable String value) {
+        for (val check : values())
+            if (check.value.equals(value))
                 return check;
-        return null;
+        return UNKNOWN;
     }
 }

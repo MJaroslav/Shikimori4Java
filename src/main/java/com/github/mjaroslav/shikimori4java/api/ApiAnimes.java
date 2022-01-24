@@ -1,61 +1,69 @@
 package com.github.mjaroslav.shikimori4java.api;
 
 import com.github.mjaroslav.shikimori4java.ShikimoriApp;
-import com.github.mjaroslav.shikimori4java.request.animes.RequestAnimes;
-import com.github.mjaroslav.shikimori4java.request.animes.RequestAnimesExternalLink;
-import com.github.mjaroslav.shikimori4java.request.animes.RequestAnimesFranchise;
-import com.github.mjaroslav.shikimori4java.request.animes.RequestAnimesId;
-import com.github.mjaroslav.shikimori4java.request.animes.RequestAnimesRelated;
-import com.github.mjaroslav.shikimori4java.request.animes.RequestAnimesRoles;
-import com.github.mjaroslav.shikimori4java.request.animes.RequestAnimesScreenshots;
-import com.github.mjaroslav.shikimori4java.request.animes.RequestAnimesSimilar;
+import com.github.mjaroslav.shikimori4java.object.*;
+import com.github.mjaroslav.shikimori4java.request.RequestBase;
+import com.github.mjaroslav.shikimori4java.request.RequestAnimes;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Range;
 
 public class ApiAnimes extends ApiBase {
-    public ApiAnimes(ShikimoriApp app) {
+    public ApiAnimes(@NotNull ShikimoriApp app) {
         super(app);
     }
 
+    @NotNull
     public RequestAnimes pattern() {
-        return new RequestAnimes(getApp());
+        return new RequestAnimes(app);
     }
 
+    @NotNull
     public RequestAnimes top() {
         return pattern().setLimit(50);
     }
 
-    public RequestAnimes search(String search) {
+    @NotNull
+    public RequestAnimes search(@NotNull String search) {
         return pattern().setSearch(search);
     }
 
-    public RequestAnimes search(String search, int limit) {
+    @NotNull
+    public RequestAnimes search(@NotNull String search, @Range(from = 1, to = 50) int limit) {
         return pattern().setSearch(search).setLimit(limit);
     }
 
-    public RequestAnimesId id(int id) {
-        return new RequestAnimesId(getApp(), id);
+    @NotNull
+    public RequestBase<ObjectAnimeFull> id(@Range(from = 1, to = Integer.MAX_VALUE) int id) {
+        return new RequestBase<>(app, "animes/" + id, ObjectAnimeFull.class);
     }
 
-    public RequestAnimesSimilar similar(int id) {
-        return new RequestAnimesSimilar(getApp(), id);
+    @NotNull
+    public RequestBase<ObjectAnime[]> similar(@Range(from = 1, to = Integer.MAX_VALUE) int id) {
+        return new RequestBase<>(app, "animes/" + id + "/similar", ObjectAnime[].class);
     }
 
-    public RequestAnimesScreenshots screenshots(int id) {
-        return new RequestAnimesScreenshots(getApp(), id);
+    @NotNull
+    public RequestBase<ObjectImage[]> screenshots(@Range(from = 1, to = Integer.MAX_VALUE) int id) {
+        return new RequestBase<>(app, "animes/" + id + "/screenshots", ObjectImage[].class);
     }
 
-    public RequestAnimesRoles roles(int id) {
-        return new RequestAnimesRoles(getApp(), id);
+    @NotNull
+    public RequestBase<ObjectRole[]> roles(@Range(from = 1, to = Integer.MAX_VALUE) int id) {
+        return new RequestBase<>(app, "animes/" + id + "/roles", ObjectRole[].class);
     }
 
-    public RequestAnimesRelated related(int id) {
-        return new RequestAnimesRelated(getApp(), id);
+    @NotNull
+    public RequestBase<ObjectRelation[]> related(@Range(from = 1, to = Integer.MAX_VALUE) int id) {
+        return new RequestBase<>(app, "animes/" + id + "/related", ObjectRelation[].class);
     }
 
-    public RequestAnimesFranchise franchise(int id) {
-        return new RequestAnimesFranchise(getApp(), id);
+    @NotNull
+    public RequestBase<ObjectFranchise> franchise(@Range(from = 1, to = Integer.MAX_VALUE) int id) {
+        return new RequestBase<>(app, "animes/" + id + "/franchise", ObjectFranchise.class);
     }
 
-    public RequestAnimesExternalLink externalLink(int id) {
-        return new RequestAnimesExternalLink(getApp(), id);
+    @NotNull
+    public RequestBase<ObjectExternalLink[]> externalLink(@Range(from = 1, to = Integer.MAX_VALUE) int id) {
+        return new RequestBase<>(app, "animes/" + id + "/external_links", ObjectExternalLink[].class);
     }
 }

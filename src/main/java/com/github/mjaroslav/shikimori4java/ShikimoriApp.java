@@ -33,9 +33,9 @@ public class ShikimoriApp {
     @NotNull
     private Logger logger = new DefaultLogger();
 
-    @Getter(AccessLevel.PRIVATE)
+    @Setter(AccessLevel.NONE)
     private String nickname;
-    @Getter(AccessLevel.PRIVATE)
+    @Setter(AccessLevel.NONE)
     private int userId;
 
     private final ApiAnimes animes = new ApiAnimes(this);
@@ -89,6 +89,7 @@ public class ShikimoriApp {
         userId = user.id;
     }
 
+    @NotNull
     public ObjectUserFull getUser() throws ShikimoriException {
         if (userId <= 0) {
             ObjectUserMe me = users().whoami().execute();
@@ -102,14 +103,17 @@ public class ShikimoriApp {
         return "Bearer " + authHandler.getToken().accessToken;
     }
 
+    @NotNull
     public ApiAnimes animes() {
         return animes;
     }
 
+    @NotNull
     public ApiMangas mangas() {
         return mangas;
     }
 
+    @NotNull
     public ApiUsers users() {
         return users;
     }

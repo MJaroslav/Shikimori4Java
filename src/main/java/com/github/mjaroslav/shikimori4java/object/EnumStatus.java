@@ -1,24 +1,41 @@
 package com.github.mjaroslav.shikimori4java.object;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.val;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+@RequiredArgsConstructor
 public enum EnumStatus {
     ANONS("anons"), ONGOING("ongoing"), RELEASED("released"),
 
-    NOTANONS("!anons"), NOTONGOING("!ongoing"), NOTRELEASED("!released");
+    NOT_ANONS("!anons"), NOT_ONGOING("!ongoing"), NOT_RELEASED("!released"),
 
-    private final String stringValue;
+    UNKNOWN("unknown");
 
-    EnumStatus(String value) {
-        stringValue = value;
+    @Getter
+    @NotNull
+    private final String value;
+
+    public boolean isExcluded() {
+        return value.startsWith("!");
     }
 
-    public String getStringValue() {
-        return stringValue;
+    public boolean isKnown() {
+        return this != UNKNOWN;
     }
 
-    public static EnumStatus fromValue(String value) {
-        for (EnumStatus check : values())
-            if (check.stringValue.equals(value))
+    @NotNull
+    public EnumStatus reverse() {
+        return isKnown() ? isExcluded() ? fromValue(value.substring(1)) : fromValue("!" + value) : UNKNOWN;
+    }
+
+    @NotNull
+    public static EnumStatus fromValue(@Nullable String value) {
+        for (val check : values())
+            if (check.value.equals(value))
                 return check;
-        return null;
+        return UNKNOWN;
     }
 }

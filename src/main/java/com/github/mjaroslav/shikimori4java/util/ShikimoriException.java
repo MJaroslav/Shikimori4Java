@@ -3,8 +3,6 @@ package com.github.mjaroslav.shikimori4java.util;
 import com.github.mjaroslav.shikimori4java.object.ObjectError;
 
 public class ShikimoriException extends RuntimeException {
-    private static final long serialVersionUID = 1L;
-
     private final String message;
     private final boolean authError;
 

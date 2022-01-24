@@ -1,26 +1,45 @@
 package com.github.mjaroslav.shikimori4java.object;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
+import lombok.val;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+@RequiredArgsConstructor
+@ToString
 public enum EnumAnimeKind {
     TV("tv"), MOVIE("movie"), OVA("ova"), ONA("ona"), SPECIAL("special"), MUSIC("music"), TV13("tv_13"), TV24("tv_24"),
     TV48("tv_48"),
 
-    NOTTV("!tv"), NOTMOVIE("!movie"), NOTOVA("!ova"), NOTONA("!ona"), NOTSPECIAL("!special"), NOTMUSIC("!music"),
-    NOTTV13("!tv_13"), NOTTV24("!tv_24"), NOTTV48("!tv_48");
+    NOT_TV("!tv"), NOT_MOVIE("!movie"), NOT_OVA("!ova"), NOT_ONA("!ona"), NOT_SPECIAL("!special"), NOT_MUSIC("!music"),
+    NOT_TV13("!tv_13"), NOT_TV24("!tv_24"), NOT_TV48("!tv_48"),
 
-    private final String stringValue;
+    UNKNOWN("unknown");
 
-    EnumAnimeKind(String value) {
-        stringValue = value;
+    @Getter
+    @NotNull
+    private final String value;
+
+    public boolean isExcluded() {
+        return value.startsWith("!");
     }
 
-    public String getStringValue() {
-        return stringValue;
+    public boolean isKnown() {
+        return this != UNKNOWN;
     }
 
-    public static EnumAnimeKind fromValue(String value) {
-        for (EnumAnimeKind check : values())
-            if (check.stringValue.equals(value))
+    @NotNull
+    public EnumAnimeKind reverse() {
+        return isKnown() ? isExcluded() ? fromValue(value.substring(1)) : fromValue("!" + value) : UNKNOWN;
+    }
+
+    @NotNull
+    public static EnumAnimeKind fromValue(@Nullable String value) {
+        for (val check : values())
+            if (check.value.equals(value))
                 return check;
-        return null;
+        return UNKNOWN;
     }
 }

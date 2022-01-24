@@ -1,23 +1,29 @@
 package com.github.mjaroslav.shikimori4java.object;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.val;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+@RequiredArgsConstructor
 public enum EnumAnimeOrder {
-    ID("id"), RANKED("ranked"), KIND("kind"), POPULARITY("popularity"), NAME("name"), AIREDON("aired_on"),
-    EPISODES("episodes"), STATUS("status"), RANDOM("random");
+    ID("id"), RANKED("ranked"), KIND("kind"), POPULARITY("popularity"), NAME("name"), AIRED_ON("aired_on"),
+    EPISODES("episodes"), STATUS("status"), RANDOM("random"), UNKNOWN("unknown");
 
-    private final String stringValue;
+    @Getter
+    @NotNull
+    private final String value;
 
-    EnumAnimeOrder(String value) {
-        stringValue = value;
+    public boolean isKnown() {
+        return this != UNKNOWN;
     }
 
-    public String getStringValue() {
-        return stringValue;
-    }
-
-    public static EnumAnimeOrder fromValue(String value) {
-        for (EnumAnimeOrder check : values())
-            if (check.stringValue.equals(value))
+    @NotNull
+    public static EnumAnimeOrder fromValue(@Nullable String value) {
+        for (val check : values())
+            if (check.value.equals(value))
                 return check;
-        return null;
+        return UNKNOWN;
     }
 }

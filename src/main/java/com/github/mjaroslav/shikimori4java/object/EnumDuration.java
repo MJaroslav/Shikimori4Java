@@ -1,24 +1,41 @@
 package com.github.mjaroslav.shikimori4java.object;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.val;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+@RequiredArgsConstructor
 public enum EnumDuration {
     S("S"), D("D"), F("F"),
 
-    NOTS("!S"), NOTD("!D"), NOTF("!F");
+    NOT_S("!S"), NOT_D("!D"), NOT_F("!F"),
 
-    private final String stringValue;
+    UNKNOWN("unknown");
 
-    EnumDuration(String value) {
-        stringValue = value;
+    @Getter
+    @NotNull
+    private final String value;
+
+    public boolean isExcluded() {
+        return value.startsWith("!");
     }
 
-    public String getStringValue() {
-        return stringValue;
+    public boolean isKnown() {
+        return this != UNKNOWN;
     }
 
-    public static EnumDuration fromValue(String value) {
-        for (EnumDuration check : values())
-            if (check.stringValue.equals(value))
+    @NotNull
+    public EnumDuration reverse() {
+        return isKnown() ? isExcluded() ? fromValue(value.substring(1)) : fromValue("!" + value) : UNKNOWN;
+    }
+
+    @NotNull
+    public static EnumDuration fromValue(@Nullable String value) {
+        for (val check : values())
+            if (check.value.equals(value))
                 return check;
-        return null;
+        return UNKNOWN;
     }
 }

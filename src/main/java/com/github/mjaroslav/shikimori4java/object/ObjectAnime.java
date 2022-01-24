@@ -16,7 +16,7 @@ public class ObjectAnime {
     public String url;
 
     public String getUrlFull() {
-        return ShikimoriInfo.URL_API + url;
+        return ShikimoriInfo.URL_SHIKIMORI + url;
     }
 
     @SerializedName("kind")
