@@ -1,8 +1,8 @@
 package com.github.mjaroslav.shikimori4java.object;
 
-import java.util.List;
+import blue.endless.jankson.annotation.SerializedName;
 
-import com.google.gson.annotations.SerializedName;
+import java.util.List;
 
 public class ObjectUserFull extends ObjectUserMe {
     @SerializedName("full_years")
@@ -29,8 +29,8 @@ public class ObjectUserFull extends ObjectUserMe {
     @SerializedName("show_comments")
     public boolean showComments;
 
-    @SerializedName("in_frends")
-    public List<ObjectUser> inFrends;
+    @SerializedName("in_friends")
+    public List<ObjectUser> inFriends;
 
     @SerializedName("is_ignored")
     public boolean isIgnored;

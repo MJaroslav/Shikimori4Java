@@ -1,4 +1,4 @@
-package com.github.mjaroslav.shikimori4java.utils;
+package com.github.mjaroslav.shikimori4java.util;
 
 import com.github.mjaroslav.shikimori4java.object.ObjectError;
 
@@ -23,7 +23,7 @@ public class ShikimoriException extends RuntimeException {
     public ShikimoriException(ObjectError error) {
         super(error.toString());
         this.message = error.toString();
-        authError = !error.isNotAuthError();
+        authError = error.isAuthError();
     }
 
     public ShikimoriException(String message, Throwable cause) {

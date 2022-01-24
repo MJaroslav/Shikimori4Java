@@ -1,6 +1,6 @@
 package com.github.mjaroslav.shikimori4java.api;
 
-import com.github.mjaroslav.shikimori4java.core.ShikimoriApp;
+import com.github.mjaroslav.shikimori4java.ShikimoriApp;
 
 public abstract class ApiBase {
     private ShikimoriApp app;

@@ -16,9 +16,6 @@ repositories {
 }
 
 dependencies {
-	implementation "org.apache.logging.log4j:log4j-slf4j-impl:${buildprop.log4j_version}"
-	implementation "org.apache.logging.log4j:log4j-api:${buildprop.log4j_version}" 
-    implementation "org.apache.logging.log4j:log4j-core:${buildprop.log4j_version}"
     implementation "com.github.kevinsawicki:http-request:${buildprop.http_version}"
     implementation "blue.endless:jankson:${buildprop.jankson_version}"
 

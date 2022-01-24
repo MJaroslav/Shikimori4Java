@@ -1,8 +1,8 @@
 package com.github.mjaroslav.shikimori4java.object;
 
-import java.util.List;
+import blue.endless.jankson.annotation.SerializedName;
 
-import com.google.gson.annotations.SerializedName;
+import java.util.List;
 
 public class ObjectMangaFull extends ObjectManga {
     @SerializedName("english")

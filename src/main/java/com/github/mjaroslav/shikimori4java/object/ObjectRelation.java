@@ -1,6 +1,6 @@
 package com.github.mjaroslav.shikimori4java.object;
 
-import com.google.gson.annotations.SerializedName;
+import blue.endless.jankson.annotation.SerializedName;
 
 public class ObjectRelation {
     @SerializedName("relation")

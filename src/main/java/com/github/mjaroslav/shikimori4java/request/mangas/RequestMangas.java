@@ -2,7 +2,7 @@ package com.github.mjaroslav.shikimori4java.request.mangas;
 
 import java.util.ArrayList;
 
-import com.github.mjaroslav.shikimori4java.core.ShikimoriApp;
+import com.github.mjaroslav.shikimori4java.ShikimoriApp;
 import com.github.mjaroslav.shikimori4java.request.RequestBase;
 import com.github.mjaroslav.shikimori4java.object.EnumMangaKind;
 import com.github.mjaroslav.shikimori4java.object.EnumMangaOrder;
@@ -11,10 +11,6 @@ import com.github.mjaroslav.shikimori4java.object.EnumType;
 import com.github.mjaroslav.shikimori4java.object.ObjectManga;
 
 public class RequestMangas extends RequestBase<ObjectManga[]> {
-    public RequestMangas() {
-        super("mangas", ObjectManga[].class);
-    }
-
     public RequestMangas(ShikimoriApp app) {
         super(app, "mangas", ObjectManga[].class);
     }

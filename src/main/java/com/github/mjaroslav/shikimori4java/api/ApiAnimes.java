@@ -1,6 +1,6 @@
 package com.github.mjaroslav.shikimori4java.api;
 
-import com.github.mjaroslav.shikimori4java.core.ShikimoriApp;
+import com.github.mjaroslav.shikimori4java.ShikimoriApp;
 import com.github.mjaroslav.shikimori4java.request.animes.RequestAnimes;
 import com.github.mjaroslav.shikimori4java.request.animes.RequestAnimesExternalLink;
 import com.github.mjaroslav.shikimori4java.request.animes.RequestAnimesFranchise;

@@ -1,8 +1,7 @@
 package com.github.mjaroslav.shikimori4java.object;
 
-import com.github.mjaroslav.shikimori4java.core.ShikimoriInfo;
-
-import com.google.gson.annotations.SerializedName;
+import blue.endless.jankson.annotation.SerializedName;
+import com.github.mjaroslav.shikimori4java.ShikimoriInfo;
 
 public class ObjectAnime {
     @SerializedName("id")
@@ -17,7 +16,7 @@ public class ObjectAnime {
     public String url;
 
     public String getUrlFull() {
-        return ShikimoriInfo.API + url;
+        return ShikimoriInfo.URL_API + url;
     }
 
     @SerializedName("kind")

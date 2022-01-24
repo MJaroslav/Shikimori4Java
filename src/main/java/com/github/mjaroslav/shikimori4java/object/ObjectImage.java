@@ -1,8 +1,7 @@
 package com.github.mjaroslav.shikimori4java.object;
 
-import com.github.mjaroslav.shikimori4java.core.ShikimoriInfo;
-
-import com.google.gson.annotations.SerializedName;
+import blue.endless.jankson.annotation.SerializedName;
+import com.github.mjaroslav.shikimori4java.ShikimoriInfo;
 
 public class ObjectImage {
     @SerializedName("original")
@@ -11,10 +10,10 @@ public class ObjectImage {
     public String preview;
 
     public String getOriginalFull() {
-        return ShikimoriInfo.SHIKIMORI + original;
+        return ShikimoriInfo.URL_SHIKIMORI + original;
     }
 
     public String getPreviewFull() {
-        return ShikimoriInfo.SHIKIMORI + preview;
+        return ShikimoriInfo.URL_SHIKIMORI + preview;
     }
 }

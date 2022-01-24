@@ -1,9 +1,8 @@
 package com.github.mjaroslav.shikimori4java.object;
 
-import com.github.mjaroslav.shikimori4java.utils.Utils;
-import com.github.mjaroslav.shikimori4java.core.ShikimoriInfo;
-
-import com.google.gson.annotations.SerializedName;
+import blue.endless.jankson.annotation.SerializedName;
+import com.github.mjaroslav.shikimori4java.ShikimoriInfo;
+import com.github.mjaroslav.shikimori4java.util.Utils;
 
 public class ObjectImageFull extends ObjectImage {
     @SerializedName("x160")
@@ -24,35 +23,35 @@ public class ObjectImageFull extends ObjectImage {
     public String x16;
 
     public String getX160Full() {
-        return ShikimoriInfo.API + x160;
+        return ShikimoriInfo.URL_API + x160;
     }
 
     public String getX148Full() {
-        return ShikimoriInfo.API + x148;
+        return ShikimoriInfo.URL_API + x148;
     }
 
     public String getX96Full() {
-        return ShikimoriInfo.API + x96;
+        return ShikimoriInfo.URL_API + x96;
     }
 
     public String getX80Full() {
-        return ShikimoriInfo.API + x80;
+        return ShikimoriInfo.URL_API + x80;
     }
 
     public String getX64Full() {
-        return ShikimoriInfo.API + x64;
+        return ShikimoriInfo.URL_API + x64;
     }
 
     public String getX48Full() {
-        return ShikimoriInfo.API + x48;
+        return ShikimoriInfo.URL_API + x48;
     }
 
     public String getX32Full() {
-        return ShikimoriInfo.API + x32;
+        return ShikimoriInfo.URL_API + x32;
     }
 
     public String getX16Full() {
-        return ShikimoriInfo.API + x16;
+        return ShikimoriInfo.URL_API + x16;
     }
 
     public String getMin() {
@@ -77,7 +76,7 @@ public class ObjectImageFull extends ObjectImage {
     }
 
     public String getMinFull() {
-        return ShikimoriInfo.API + getMin();
+        return ShikimoriInfo.URL_API + getMin();
     }
 
     public String getMax() {
@@ -102,6 +101,6 @@ public class ObjectImageFull extends ObjectImage {
     }
 
     public String getMaxFull() {
-        return ShikimoriInfo.API + getMax();
+        return ShikimoriInfo.URL_API + getMax();
     }
 }

@@ -1,19 +1,14 @@
 package com.github.mjaroslav.shikimori4java.request.animes;
 
+import com.github.mjaroslav.shikimori4java.ShikimoriApp;
+import com.github.mjaroslav.shikimori4java.object.*;
+import com.github.mjaroslav.shikimori4java.request.RequestBase;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 
-import com.github.mjaroslav.shikimori4java.core.ShikimoriApp;
-import com.github.mjaroslav.shikimori4java.object.*;
-import org.shikimori.mjaroslav.shikimori4java.object.*;
-import com.github.mjaroslav.shikimori4java.request.RequestBase;
-
 public class RequestAnimes extends RequestBase<ObjectAnime[]> {
-    public RequestAnimes() {
-        super("animes", ObjectAnime[].class);
-        setNeedToken(false);
-    }
-
-    public RequestAnimes(ShikimoriApp app) {
+    public RequestAnimes(@Nullable ShikimoriApp app) {
         super(app, "animes", ObjectAnime[].class);
     }
 

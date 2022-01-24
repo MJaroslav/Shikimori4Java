@@ -1,9 +1,10 @@
 package com.github.mjaroslav.shikimori4java.object;
 
-import com.github.mjaroslav.shikimori4java.utils.Utils;
+import blue.endless.jankson.annotation.SerializedName;
+import com.github.mjaroslav.shikimori4java.util.Utils;
+import lombok.ToString;
 
-import com.google.gson.annotations.SerializedName;
-
+@ToString
 public class ObjectError {
     @SerializedName("error")
     public String error;
@@ -14,18 +15,11 @@ public class ObjectError {
     @SerializedName("state")
     public String state;
 
-    public boolean isNotAuthError() {
-        return (error == null || error.equals("")) && (state == null || !state.equals("unauthorized"));
+    public boolean isAuthError() {
+        return (error != null && !error.equals("")) || (state != null && state.equals("unauthorized"));
     }
 
     public boolean hasError() {
         return Utils.stringNotEmpty(error) || Utils.stringNotEmpty(errorDesc);
-    }
-
-    @Override
-    public String toString() {
-        return (Utils.stringNotEmpty(state) ? "[" + state + "] " : "")
-                + (Utils.stringNotEmpty(error) ? error + ": " : "")
-                + (Utils.stringNotEmpty(errorDesc) ? errorDesc : "");
     }
 }
