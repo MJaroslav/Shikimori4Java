@@ -10,7 +10,7 @@ import static com.github.mjaroslav.shikimori4java.ShikimoriInfo.*;
 
 public class GetUsers extends Request<UserMinimal[]> {
     public GetUsers(@NotNull ShikimoriApp app) {
-        super(app, METHOD_USERS_GET, UserMinimal[].class, APIVersion.V1);
+        super(app, METHOD_USERS_GET, UserMinimal[].class, APIVersion.V1, false);
     }
 
     @NotNull

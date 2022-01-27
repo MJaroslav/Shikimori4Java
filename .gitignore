@@ -26,5 +26,4 @@ log/
 gradle.properties
 
 # Program
-app.credentials
 token.json

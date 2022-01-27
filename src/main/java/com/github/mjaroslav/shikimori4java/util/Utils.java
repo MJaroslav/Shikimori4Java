@@ -8,6 +8,7 @@ import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.UnknownNullability;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -29,7 +30,7 @@ public class Utils {
         return String.join("\n", Files.readAllLines(path, StandardCharsets.UTF_8));
     }
 
-    @Nullable
+    @UnknownNullability
     public <T> T fromJson(@NotNull String json, @NotNull Class<T> clazz) {
         try {
             return JANKSON.getMarshaller().marshall(clazz, JANKSON.loadElement(json));

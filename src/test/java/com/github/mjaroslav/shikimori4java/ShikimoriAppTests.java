@@ -1,29 +1,26 @@
 package com.github.mjaroslav.shikimori4java;
 
-import com.github.mjaroslav.shikimori4java.util.TestAuthHandler;
+import com.github.mjaroslav.shikimori4java.object.Anime;
+import com.github.mjaroslav.shikimori4java.throwable.login.LoginErrorException;
+import com.github.mjaroslav.shikimori4java.throwable.runtime.AuthRequiredException;
 import lombok.val;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-
 public class ShikimoriAppTests {
     private static ShikimoriApp app;
 
     @BeforeAll
-    public static void login() throws Exception {
-        val auth = new TestAuthHandler();
-        app = new ShikimoriApp(auth.getName(), auth.getClientId(), auth.getClientSecret(), null);
-        app.setAuthHandler(auth);
-        Assertions.assertTrue(app.login(), "Can't login!");
+    public static void login() throws LoginErrorException {
+        app = new ShikimoriApp("Shikimori4JavaTest");
+        app.loginAsPublic();
     }
 
     @Test
     public void animes_id() {
         val expected = "Cowboy Bebop";
         val response = app.animes().id(1).execute();
-        app.getLogger().debug(response.toString());
         val actual = response.name;
         Assertions.assertEquals(expected, actual);
     }
@@ -31,9 +28,13 @@ public class ShikimoriAppTests {
     @Test
     public void animes_search() {
         val expected = "Trigun";
-        val response = app.animes().search("Trigun", 1).execute();
-        app.getLogger().debug(Arrays.toString(response));
+        Anime[] response = app.animes().search("Trigun", 1).execute();
         val actual = response[0].name;
         Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void users_whoami_fail() {
+        Assertions.assertThrows(AuthRequiredException.class, () -> app.users().whoami().execute());
     }
 }

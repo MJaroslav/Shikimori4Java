@@ -3,6 +3,8 @@ package com.github.mjaroslav.shikimori4java.auth.impl;
 import com.github.mjaroslav.shikimori4java.auth.Auth;
 import com.github.mjaroslav.shikimori4java.auth.AuthHandler;
 import com.github.mjaroslav.shikimori4java.object.AccessToken;
+import com.github.mjaroslav.shikimori4java.throwable.login.AuthErrorException;
+import com.github.mjaroslav.shikimori4java.throwable.login.LoginErrorException;
 import com.github.mjaroslav.shikimori4java.util.Utils;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,39 +21,21 @@ public final class DefaultAuthHandler implements AuthHandler {
     private AccessToken token;
 
     @Override
-    public boolean auth(@NotNull String clientId, @NotNull String clientSecret, @NotNull String redirectUri,
-                        @NotNull String appName) {
+    public void auth(@NotNull String clientId, @NotNull String clientSecret, @NotNull String redirectUri,
+                     @NotNull String appName) throws LoginErrorException {
         if (!Desktop.isDesktopSupported())
-            return false;
+            throw new LoginErrorException("Desktop is not supported for this platform");
         try {
             Desktop.getDesktop().browse(Auth.createCodeRequest(clientId, clientSecret, redirectUri).url().toURI());
             val code = String.valueOf(System.console().readLine("Enter code: "));
             val tokenRequest = Auth.createAuthorizationTokenRequest(clientId, clientSecret, redirectUri,
                     code, appName);
             val token = Utils.fromJson(tokenRequest.body(), AccessToken.class);
-            if (token == null || token.hasError())
-                return false;
+            if (token.isAuthError())
+                throw new AuthErrorException(token);
             setToken(token);
-            return true;
-        } catch (Exception ignored) {
-            return false;
+        } catch (Exception e) {
+            throw new LoginErrorException(e);
         }
-    }
-
-    @Override
-    public boolean isAuthorized() {
-        return token != null && !token.hasError() && !token.isRefreshRequired();
-    }
-
-    @Override
-    public boolean refreshToken(@NotNull String clientId, @NotNull String clientSecret, @NotNull String appName,
-                                @NotNull String token) {
-        val refreshRequest = Auth.createRefreshTokenRequest(token, clientId, clientSecret, appName);
-        val refreshedToken = Utils.fromJson(refreshRequest.body(), AccessToken.class);
-        if (refreshedToken != null && !refreshedToken.hasError()) {
-            setToken(refreshedToken);
-            return true;
-        }
-        return false;
     }
 }

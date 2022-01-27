@@ -15,7 +15,7 @@ import static com.github.mjaroslav.shikimori4java.ShikimoriInfo.*;
 
 public class GetAnimes extends Request<Anime[]> {
     public GetAnimes(@NotNull ShikimoriApp app) {
-        super(app, METHOD_ANIMES_GET, Anime[].class, APIVersion.V1);
+        super(app, METHOD_ANIMES_GET, Anime[].class, APIVersion.V1, false);
     }
 
     @NotNull

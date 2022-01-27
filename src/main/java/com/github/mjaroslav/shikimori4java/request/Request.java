@@ -2,8 +2,11 @@ package com.github.mjaroslav.shikimori4java.request;
 
 import com.github.kevinsawicki.http.HttpRequest;
 import com.github.mjaroslav.shikimori4java.ShikimoriApp;
+import com.github.mjaroslav.shikimori4java.logger.LogManager;
 import com.github.mjaroslav.shikimori4java.object.Error;
-import com.github.mjaroslav.shikimori4java.throwable.ShikimoriException;
+import com.github.mjaroslav.shikimori4java.throwable.runtime.AuthRequiredException;
+import com.github.mjaroslav.shikimori4java.throwable.runtime.RequestErrorException;
+import com.github.mjaroslav.shikimori4java.throwable.runtime.TokenExpiredException;
 import com.github.mjaroslav.shikimori4java.util.APIVersion;
 import com.github.mjaroslav.shikimori4java.util.Utils;
 import lombok.*;
@@ -29,6 +32,7 @@ public class Request<T> {
     protected final APIVersion version;
     @NotNull
     protected final Map<String, Object> params = new HashMap<>();
+    protected final boolean authRequired;
 
     public Object setParam(@NotNull String name, @Nullable Object value) {
         if (value == null)
@@ -67,37 +71,42 @@ public class Request<T> {
     }
 
     @NotNull
-    public T execute() throws ShikimoriException {
-        val result = Utils.fromJson(executeJSON(false), getResponseType());
-        if (result == null)
-            throw new ShikimoriException("API request result is null");
-        return result;
+    public T execute() {
+        if (app.isLogged())
+            if (isAuthRequired() && app.isPublicApiOnly())
+                throw new AuthRequiredException("This not public API request");
+            else
+                return Utils.fromJson(executeJSON(false), getResponseType());
+        else throw new RequestErrorException("Application is not logged");
     }
 
     @NotNull
     public HttpRequest buildHttpRequest() {
-        return HttpRequest.get(String.format("%s/%s", version.getUrl(), method), true, getParams()).userAgent(app.getAppName())
-                .authorization(app.getAuthorization());
+        var result = HttpRequest.get(String.format("%s/%s", version.getUrl(), method), true, getParams()).userAgent(app.getAppName());
+        return app.isPublicApiOnly() ? result : result.authorization(app.getAuthorization());
     }
 
-    protected String executeJSON(boolean tokenRefreshed) throws ShikimoriException {
+    protected String executeJSON(boolean tokenRefreshed) {
         val request = buildHttpRequest();
+        LogManager.getLogger().debug(String.valueOf(request.url()));
         val json = request.body();
-        app.getLogger().debug(json);
+        LogManager.getLogger().debug(json);
         try {
             val error = Utils.fromJson(json, Error.class);
             if (error == null)
-                throw new ShikimoriException("API request result is null");
+                return json;
             if (!error.hasError())
                 return json;
-            else if (error.isAuthError() && !tokenRefreshed && app.isRefreshOnError()) {
-                app.getLogger().warn("Token expired, trying refresh token...");
-                app.login();
-                return executeJSON(true);
+            else if (error.isAuthError()) {
+                if (!tokenRefreshed && app.isRefreshOnError() && !app.isPublicApiOnly()) {
+                    LogManager.getLogger().warn("Token expired, trying refresh token...");
+                    app.refreshToken(true);
+                    return executeJSON(true);
+                } else throw new TokenExpiredException(error);
             } else
-                throw new ShikimoriException(error);
+                throw new RequestErrorException(error);
         } catch (Exception e) {
-            return json;
+            throw new RequestErrorException(e);
         }
     }
 }

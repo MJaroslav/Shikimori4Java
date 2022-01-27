@@ -15,7 +15,7 @@ import static com.github.mjaroslav.shikimori4java.ShikimoriInfo.*;
 
 public class GetMangas extends Request<Manga[]> {
     public GetMangas(@NotNull ShikimoriApp app) {
-        super(app, METHOD_MANGAS_GET, Manga[].class, APIVersion.V1);
+        super(app, METHOD_MANGAS_GET, Manga[].class, APIVersion.V1, false);
     }
 
     @NotNull
