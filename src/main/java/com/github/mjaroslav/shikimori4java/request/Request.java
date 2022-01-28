@@ -4,6 +4,7 @@ import com.github.kevinsawicki.http.HttpRequest;
 import com.github.mjaroslav.shikimori4java.ShikimoriApp;
 import com.github.mjaroslav.shikimori4java.logger.LogManager;
 import com.github.mjaroslav.shikimori4java.object.Error;
+import com.github.mjaroslav.shikimori4java.throwable.login.LoginErrorException;
 import com.github.mjaroslav.shikimori4java.throwable.runtime.AuthRequiredException;
 import com.github.mjaroslav.shikimori4java.throwable.runtime.RequestErrorException;
 import com.github.mjaroslav.shikimori4java.throwable.runtime.TokenExpiredException;
@@ -91,17 +92,29 @@ public class Request<T> {
         val request = buildHttpRequest();
         LogManager.getLogger().debug(String.valueOf(request.url()));
         val code = request.code();
-        LogManager.getLogger().debug("Answer code: " + code);
+        val json = request.body();
+        LogManager.getLogger().debug("Code: " + code, ", body: " + json);
         if (code == 429) {
             LogManager.getLogger().warn("So many requests! Calming down...");
             try {
                 Thread.sleep(1000);
                 return executeJSON(tokenRefreshed);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                throw new TokenExpiredException(e);
             }
         }
-        val json = request.body();
+        if (code == 401) {
+            try {
+                if (!tokenRefreshed && app.isRefreshOnError() && !app.isPublicApiOnly()) {
+                    LogManager.getLogger().warn("Token expired, trying refresh token...");
+                    app.refreshToken(true);
+                    return executeJSON(true);
+                }
+            } catch (LoginErrorException e) {
+                throw new TokenExpiredException(e);
+            }
+        }
+
         LogManager.getLogger().debug(json);
         try {
             val error = Utils.fromJson(json, Error.class);
@@ -109,14 +122,7 @@ public class Request<T> {
                 return json;
             if (!error.hasError())
                 return json;
-            else if (error.isAuthError()) {
-                if (!tokenRefreshed && app.isRefreshOnError() && !app.isPublicApiOnly()) {
-                    LogManager.getLogger().warn("Token expired, trying refresh token...");
-                    app.refreshToken(true);
-                    return executeJSON(true);
-                } else throw new TokenExpiredException(error);
-            } else
-                throw new RequestErrorException(error);
+            throw new RequestErrorException(error);
         } catch (Exception e) {
             throw new RequestErrorException(e);
         }

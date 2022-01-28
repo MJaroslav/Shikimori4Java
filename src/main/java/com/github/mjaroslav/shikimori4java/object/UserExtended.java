@@ -21,7 +21,7 @@ public class UserExtended extends User {
     @SerializedName("show_comments")
     public boolean showComments;
     @SerializedName("in_friends")
-    public List<UserMinimal> inFriends;
+    public boolean inFriends;
     @SerializedName("is_ignored")
     public boolean isIgnored;
 }

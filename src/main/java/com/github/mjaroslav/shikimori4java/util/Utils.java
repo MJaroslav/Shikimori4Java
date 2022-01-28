@@ -36,7 +36,7 @@ public class Utils {
             LogManager.getLogger().debug(clazz + ":" + json);
             return GSON.fromJson(json, clazz);
         } catch (Exception e) {
-            LogManager.getLogger().debug(null, e);
+            LogManager.getLogger().debug("Error while deserializing json \"%s\" for %s type", e, json, clazz);
             return null;
         }
     }
