@@ -15,7 +15,7 @@ public class CIShikimoriAppTests {
         val appName = System.getenv("APP_NAME");
         val clientId = System.getenv("CLIENT_ID");
         val clientSecret = System.getenv("CLIENT_SECRET_PASSWORD");
-        app = new ShikimoriApp(appName, clientId, clientSecret, null, new DummyAuthHandler(), new EnvTokenStorage());
+        app = new ShikimoriApp(appName, clientId, clientSecret, null, new CIAuthHandler(), null);
         app.loginAsUser();
     }
 
