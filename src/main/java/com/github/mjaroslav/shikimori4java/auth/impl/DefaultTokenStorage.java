@@ -25,7 +25,9 @@ public final class DefaultTokenStorage implements TokenStorage {
     @Override
     public @Nullable AccessToken loadToken() throws TokenLoadingErrorException {
         try {
-            return Utils.fromJson(Utils.readFileText(tokenPath), AccessToken.class);
+            if (Files.isRegularFile(tokenPath))
+                return Utils.fromJson(Utils.readFileText(tokenPath), AccessToken.class);
+            else return null;
         } catch (IOException e) {
             throw new TokenLoadingErrorException(e);
         }
