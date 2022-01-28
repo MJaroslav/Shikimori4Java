@@ -12,6 +12,7 @@ import com.github.mjaroslav.shikimori4java.util.Utils;
 import lombok.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.UnknownNullability;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -70,7 +71,7 @@ public class Request<T> {
         return result.toArray(new Object[0]);
     }
 
-    @NotNull
+    @UnknownNullability
     public T execute() {
         if (app.isLogged())
             if (isAuthRequired() && app.isPublicApiOnly())
@@ -89,6 +90,17 @@ public class Request<T> {
     protected String executeJSON(boolean tokenRefreshed) {
         val request = buildHttpRequest();
         LogManager.getLogger().debug(String.valueOf(request.url()));
+        val code = request.code();
+        LogManager.getLogger().debug("Answer code: " + code);
+        if (code == 429) {
+            LogManager.getLogger().warn("So many requests! Calming down...");
+            try {
+                Thread.sleep(1000);
+                return executeJSON(tokenRefreshed);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         val json = request.body();
         LogManager.getLogger().debug(json);
         try {

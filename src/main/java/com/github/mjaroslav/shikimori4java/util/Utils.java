@@ -1,9 +1,10 @@
 package com.github.mjaroslav.shikimori4java.util;
 
-import blue.endless.jankson.Jankson;
-import blue.endless.jankson.JsonObject;
-import blue.endless.jankson.api.SyntaxError;
+
+import com.github.mjaroslav.shikimori4java.logger.LogManager;
 import com.github.mjaroslav.shikimori4java.object.Image;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -17,8 +18,7 @@ import java.nio.file.Path;
 
 @UtilityClass
 public class Utils {
-    public final Jankson JANKSON = Jankson.builder().registerDeserializer(JsonObject.class, Image.class,
-            new ImageDeserializer()).build();
+    public final Gson GSON = new GsonBuilder().registerTypeAdapter(Image.class, new ImageDeserializer()).create();
 
     @Contract("null -> false")
     public boolean stringNotEmpty(@Nullable String str) {
@@ -33,14 +33,16 @@ public class Utils {
     @UnknownNullability
     public <T> T fromJson(@NotNull String json, @NotNull Class<T> clazz) {
         try {
-            return JANKSON.getMarshaller().marshall(clazz, JANKSON.loadElement(json));
-        } catch (SyntaxError e) {
+            LogManager.getLogger().debug(clazz + ":" + json);
+            return GSON.fromJson(json, clazz);
+        } catch (Exception e) {
+            LogManager.getLogger().debug(null, e);
             return null;
         }
     }
 
     @NotNull
     public <T> String toJson(@NotNull T object) {
-        return JANKSON.toJson(object).toJson();
+        return GSON.toJson(object);
     }
 }

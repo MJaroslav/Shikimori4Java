@@ -37,4 +37,13 @@ public class ShikimoriAppTests {
     public void users_whoami_fail() {
         Assertions.assertThrows(AuthRequiredException.class, () -> app.users().whoami().execute());
     }
+
+    @Test
+    public void many_requests() {
+        for (int i = 0; i < 7; i++)
+            new Thread(() -> {
+                val actual = app.animes().id(1).execute().name;
+                Assertions.assertEquals("Cowboy Bebop", actual);
+            }).start();
+    }
 }

@@ -1,6 +1,6 @@
 package com.github.mjaroslav.shikimori4java.object;
 
-import blue.endless.jankson.annotation.SerializedName;
+import com.google.gson.annotations.SerializedName;
 import lombok.ToString;
 
 @ToString

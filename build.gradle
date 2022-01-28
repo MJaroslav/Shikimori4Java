@@ -17,7 +17,7 @@ repositories {
 
 dependencies {
     implementation "com.github.kevinsawicki:http-request:${buildprop.http_version}"
-    implementation "blue.endless:jankson:${buildprop.jankson_version}"
+    implementation "com.google.code.gson:gson:${buildprop.gson_version}"
 
     testImplementation "org.junit.jupiter:junit-jupiter:${buildprop.junit_version}"
     implementation "org.jetbrains:annotations:${buildprop.jba_version}"
