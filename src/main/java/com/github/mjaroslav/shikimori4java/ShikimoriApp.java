@@ -85,8 +85,8 @@ public class ShikimoriApp {
             }
         }
         if (authHandler.isAuthorized()) {
-            initUser();
             logged = true;
+            initUser();
         } else logged = false;
     }
 
